@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ChameleonScript : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class ChameleonScript : MonoBehaviour
     [SerializeField] private float MaxSpeed;
 
     private Rigidbody2D body;
+    private Tilemap tiles;
 
     private BodyColor color;
     private bool visible;
@@ -26,6 +28,7 @@ public class ChameleonScript : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        tiles = GameObject.Find("Jungle").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         SetColor(startColor);
     }
 
@@ -58,6 +61,10 @@ public class ChameleonScript : MonoBehaviour
         }
 
         transform.position = new Vector3(transform.position.x + body.velocity.x * Time.deltaTime, transform.position.y + body.velocity.y * Time.deltaTime, transform.position.z);
+
+        // check visibility from tile
+        TileBase currentTile = tiles.GetTile(new Vector3Int(0, 0, 0));
+        //currentTile.GetTileData(
 
         // tongue shot
         if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0)) {

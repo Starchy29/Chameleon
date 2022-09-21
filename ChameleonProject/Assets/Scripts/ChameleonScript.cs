@@ -127,7 +127,7 @@ public class ChameleonScript : MonoBehaviour
             SetColor(collision.gameObject.GetComponent<BushScript>().color);
         }
         else if(collision.gameObject.tag == "Fly") {
-            
+            Destroy(collision.gameObject);
         }
     }
 

@@ -17,6 +17,12 @@ public class ChameleonScript : MonoBehaviour
     [SerializeField] private float Acceleration;
     [SerializeField] private float MaxSpeed;
 
+    // Tile color sprites to be set as prefab, used to check the tile this is standing on
+    [SerializeField] private Sprite redSprite;
+    [SerializeField] private Sprite blueSprite;
+    [SerializeField] private Sprite greenSprite;
+    [SerializeField] private Sprite yellowSprite;
+
     private Rigidbody2D body;
     private Tilemap tiles;
 
@@ -63,8 +69,33 @@ public class ChameleonScript : MonoBehaviour
         transform.position = new Vector3(transform.position.x + body.velocity.x * Time.deltaTime, transform.position.y + body.velocity.y * Time.deltaTime, transform.position.z);
 
         // check visibility from tile
-        TileBase currentTile = tiles.GetTile(new Vector3Int(0, 0, 0));
-        //currentTile.GetTileData(
+        visible = true; // visible until proven hidden
+        Tile currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
+        Debug.Log(tiles.LocalToCell(transform.position));
+        if(currentTile) {
+            switch(color) {
+                case BodyColor.Blue:
+                    if(currentTile.sprite == blueSprite) {
+                        visible = false;
+                    }
+                    break;
+                case BodyColor.Green:
+                    if(currentTile.sprite == greenSprite) {
+                        visible = false;
+                    }
+                    break;
+                case BodyColor.Yellow:
+                    if(currentTile.sprite == yellowSprite) {
+                        visible = false;
+                    }
+                    break;
+                case BodyColor.Red:
+                    if(currentTile.sprite == redSprite) {
+                        visible = false;
+                    }
+                    break;
+            }
+        }
 
         // tongue shot
         if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0)) {

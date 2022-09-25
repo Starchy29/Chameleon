@@ -6,16 +6,17 @@ TagManager:
   tags:
   - Bush
   - Fly
+  - Snake
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Snake
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Wall
+  - Player
   - 
   - 
   - 

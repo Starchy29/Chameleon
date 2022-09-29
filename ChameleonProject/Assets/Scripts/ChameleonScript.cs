@@ -39,8 +39,8 @@ public class ChameleonScript : MonoBehaviour
         SetColor(startColor);
     }
 
-    // Update is called once per frame
-    void Update()
+    // FixedUpdate helps with the wall jitteriness
+    void FixedUpdate()
     {
         // move
         if(body.velocity != Vector2.zero) {
@@ -67,7 +67,7 @@ public class ChameleonScript : MonoBehaviour
             }
         }
 
-        transform.position = new Vector3(transform.position.x + body.velocity.x * Time.deltaTime, transform.position.y + body.velocity.y * Time.deltaTime, transform.position.z);
+        // rigidbody translates using velocity on its own
         
         // rotate to face move direction
         if(body.velocity != Vector2.zero) {

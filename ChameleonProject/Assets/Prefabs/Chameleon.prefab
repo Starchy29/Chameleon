@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6724434461175263422}
   - component: {fileID: 6724434461175263424}
   - component: {fileID: 6724434461175263426}
-  - component: {fileID: 2139495079845556192}
+  - component: {fileID: 4768616975163708811}
   m_Layer: 0
   m_Name: Chameleon
   m_TagString: Player
@@ -193,6 +193,7 @@ MonoBehaviour:
   blueSprite: {fileID: 0}
   greenSprite: {fileID: 0}
   yellowSprite: {fileID: 0}
+  inBush: 0
 --- !u!50 &6724434461175263426
 Rigidbody2D:
   serializedVersion: 4
@@ -214,8 +215,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &2139495079845556192
-CircleCollider2D:
+--- !u!70 &4768616975163708811
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -228,8 +229,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 0.5}
+  m_Direction: 1
 --- !u!1 &8309879797220050977
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8309879797220050977}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.6, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

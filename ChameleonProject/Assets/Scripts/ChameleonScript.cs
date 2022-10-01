@@ -28,7 +28,8 @@ public class ChameleonScript : MonoBehaviour
 
     private BodyColor color;
     private bool visible;
-    public bool Visisble { get { return visible; } }
+    [SerializeField] private bool inBush; // track if in bush to make chameleon invisible
+    public bool Visisble { get { return visible && !inBush; } }
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +39,8 @@ public class ChameleonScript : MonoBehaviour
         SetColor(startColor);
     }
 
-    // Update is called once per frame
-    void Update()
+    // FixedUpdate helps with the wall jitteriness
+    void FixedUpdate()
     {
         // move
         if(body.velocity != Vector2.zero) {
@@ -66,12 +67,17 @@ public class ChameleonScript : MonoBehaviour
             }
         }
 
-        transform.position = new Vector3(transform.position.x + body.velocity.x * Time.deltaTime, transform.position.y + body.velocity.y * Time.deltaTime, transform.position.z);
+        // rigidbody translates using velocity on its own
+        
+        // rotate to face move direction
+        if(body.velocity != Vector2.zero) {
+            float angle = Mathf.Atan2(body.velocity.y, body.velocity.x) * 180f / Mathf.PI; // converted to degrees
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
 
         // check visibility from tile
         visible = true; // visible until proven hidden
         Tile currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
-        Debug.Log(tiles.LocalToCell(transform.position));
         if(currentTile) {
             switch(color) {
                 case BodyColor.Blue:
@@ -125,9 +131,17 @@ public class ChameleonScript : MonoBehaviour
     {
         if(collision.gameObject.tag == "Bush") {
             SetColor(collision.gameObject.GetComponent<BushScript>().color);
+            inBush = true;
         }
         else if(collision.gameObject.tag == "Fly") {
             Destroy(collision.gameObject);
+        }
+    }
+
+    // detect that the chameleon has left its bush. Bushes must not overlap for this to work
+    public void OnTriggerExit2D(Collider2D collision) {
+        if(collision.gameObject.tag == "Bush") {
+            inBush = false;
         }
     }
 

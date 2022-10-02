@@ -33,8 +33,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Awake()
+
+    public virtual void Awake()
     {
+        // Singleton instantiation
+        if (instance == null)
+        {
+            instance = this;
+            //DontDestroyOnLoad(gameObject); // dont need yet - will allow to save data when going to menu
+        }
+        else
+        {
+            Destroy(gameObject); // why does it need to be destroyed of contains instance
+        }
+
         state = GameState.PLAY;
     }
 

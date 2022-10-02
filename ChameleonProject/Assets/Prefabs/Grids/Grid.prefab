@@ -2392,7 +2392,7 @@ GameObject:
   - component: {fileID: 1780445717154239709}
   - component: {fileID: 7277666049820733854}
   m_Layer: 0
-  m_Name: L1-Grid
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

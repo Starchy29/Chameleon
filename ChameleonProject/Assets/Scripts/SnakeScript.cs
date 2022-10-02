@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SnakeScript : MonoBehaviour
 {
+
+    //[SerializeField] private FieldOfView fieldOfView;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,12 +16,18 @@ public class SnakeScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0, 0, 20 * Time.deltaTime);
+       // Vector3 position = transform.rotation.eulerAngles;
+        //Debug.Log(position);
+
+        Rotate();
+
+       // fieldOfView.SetAimDirection(position);
+       // fieldOfView.SetOrigin(transform.position);
     }
 
     private void Rotate()
     {
-
+        transform.Rotate(0, 0, 20 * Time.deltaTime);
     }
 
 }

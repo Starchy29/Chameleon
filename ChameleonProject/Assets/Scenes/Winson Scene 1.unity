@@ -185,6 +185,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 6724434461175263424, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: fieldOfView
+      value: 
+      objectReference: {fileID: 33686633}
     - target: {fileID: 6724434461175263425, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -253,7 +257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &33686633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &998631246
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -990,7 +994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 553854181124520652, guid: 2b1c17ee2b9616d4fb3c1f41f10e527e, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 553854181124520652, guid: 2b1c17ee2b9616d4fb3c1f41f10e527e, type: 3}
       propertyPath: m_TagString
@@ -1157,7 +1161,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -3662941422537613510, guid: f5e962725327bbb43bd18093573f921f, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3662941422537613510, guid: f5e962725327bbb43bd18093573f921f, type: 3}
       propertyPath: viewAngle
@@ -1499,7 +1503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &1503186217
 MeshFilter:
   m_ObjectHideFlags: 0

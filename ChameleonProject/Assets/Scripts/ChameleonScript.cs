@@ -11,6 +11,7 @@ public class ChameleonScript : MonoBehaviour
         Red,
         Yellow
     }
+    [SerializeField] private FieldOfView fieldOfView;
 
     [SerializeField] private BodyColor startColor; // allows each level to start as a different color
     [SerializeField] private float Friction;
@@ -107,6 +108,10 @@ public class ChameleonScript : MonoBehaviour
         if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0)) {
 
         }
+
+        //adjusts field of vision
+        fieldOfView.SetAimDirection(movement);
+        fieldOfView.SetOrigin(transform.position);
     }
 
     private void SetColor(BodyColor color) {

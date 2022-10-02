@@ -136,6 +136,12 @@ public class ChameleonScript : MonoBehaviour
         else if(collision.gameObject.tag == "Fly") {
             Destroy(collision.gameObject);
         }
+
+        else if (collision.gameObject.tag == "Enemy Vision")
+        {
+            //Debug.Log("COLLISION");
+            transform.position = Vector3.zero;
+        }
     }
 
     // detect that the chameleon has left its bush. Bushes must not overlap for this to work

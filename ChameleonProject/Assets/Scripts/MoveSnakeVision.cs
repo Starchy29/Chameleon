@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SnakeScript : MonoBehaviour
+public class MoveSnakeVision : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,10 +15,4 @@ public class SnakeScript : MonoBehaviour
     {
         transform.Rotate(0, 0, 20 * Time.deltaTime);
     }
-
-    private void Rotate()
-    {
-
-    }
-
 }

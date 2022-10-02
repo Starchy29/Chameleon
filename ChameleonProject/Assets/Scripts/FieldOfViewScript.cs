@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class FieldOfViewScript : MonoBehaviour
 {
-
     public float viewRadius;
-    [Range(0,360)]
+    [Range(0, 360)]
     public float viewAngle;
 
     public LayerMask targetMask;
@@ -21,8 +21,8 @@ public class FieldOfViewScript : MonoBehaviour
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
-    // Start is called before the first frame update
-    void Start()
+    //// Start is called before the first frame update
+    private void Start()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
@@ -33,7 +33,7 @@ public class FieldOfViewScript : MonoBehaviour
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
@@ -41,9 +41,10 @@ public class FieldOfViewScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    private void LateUpdate()
     {
         DrawFieldOfView();
+ 
     }
 
     void FindVisibleTargets()
@@ -51,16 +52,18 @@ public class FieldOfViewScript : MonoBehaviour
         visibleTargets.Clear();
 
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
+        //Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, Mathf.Infinity, targetMask);
 
-        for(int i = 9; i < targetsInViewRadius.Length; i++)
+
+        for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if(Vector3.Angle(transform.forward, dirToTarget) < viewAngle/2)
+            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
-                if(!Physics.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
                 }
@@ -76,18 +79,18 @@ public class FieldOfViewScript : MonoBehaviour
 
         ViewCastInfo oldViewCast = new ViewCastInfo();
 
-        for(int i = 0; i <= stepCount; i++)
+        for (int i = 0; i <= stepCount; i++)
         {
             float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
-            if(i > 0)
+            if (i > 0)
             {
                 bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDistanceThreshold;
-                if(oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThresholdExceeded))
+                if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThresholdExceeded))
                 {
                     EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
-                    if(edge.pointA != Vector3.zero)
+                    if (edge.pointA != Vector3.zero)
                     {
                         viewPoints.Add(edge.pointA);
                     }
@@ -108,17 +111,17 @@ public class FieldOfViewScript : MonoBehaviour
         int[] triangles = new int[(vertexCount - 2) * 3];
 
         vertices[0] = Vector3.zero;
-        for(int i = 0; i < vertexCount - 1; i++)
+        for (int i = 0; i < vertexCount - 1; i++)
         {
             vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 
-            if(i < vertexCount-2)
+            if (i < vertexCount - 2)
             {
                 triangles[i * 3] = 0;
                 triangles[i * 3 + 1] = i + 1;
                 triangles[i * 3 + 2] = i + 2;
             }
-   
+
         }
 
         viewMesh.Clear();
@@ -134,7 +137,7 @@ public class FieldOfViewScript : MonoBehaviour
         Vector3 minPoint = Vector3.zero;
         Vector3 maxPoint = Vector3.zero;
 
-        for(int i = 0; i < edgeResolveIterations; i++)
+        for (int i = 0; i < edgeResolveIterations; i++)
         {
             float angle = (minAngle + maxAngle) / 2;
             ViewCastInfo newViewCast = ViewCast(angle);
@@ -156,28 +159,40 @@ public class FieldOfViewScript : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
     }
 
-    ViewCastInfo ViewCast(float gloablAngle)
+    ViewCastInfo ViewCast(float globalAngle)
     {
-        Vector3 dir = DirFromAngle(gloablAngle, true);
+        Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit hit;
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(dir.x, dir.y), Mathf.Infinity, obstacleMask);
 
-        if(Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
+        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
         {
-            return new ViewCastInfo(true, hit.point, hit.distance, gloablAngle);
+            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
         }
+        //if (/*hit != null &&*/ hit.collider != null)
+        //{
+
+        //    return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+
+        //}
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, gloablAngle);
+            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            //return new ViewCastInfo(false, transform.position + dir * Mathf.Infinity, Mathf.Infinity, globalAngle);
         }
     }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
-        if(!angleIsGlobal)
+        //converts angle to global
+        if (!angleIsGlobal)
         {
             angleInDegrees -= transform.eulerAngles.z;
+            //angleInDegrees += transform.eulerAngles.y;
         }
-        return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        //return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
+
     }
 
     public struct ViewCastInfo

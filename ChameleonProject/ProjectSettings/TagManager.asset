@@ -8,6 +8,9 @@ TagManager:
   - Fly
   - Snake
   - Wall
+  - Bird
+  - Waypoints
+  - Enemy Vision
   layers:
   - Default
   - TransparentFX

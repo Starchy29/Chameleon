@@ -35,7 +35,8 @@ public class ChameleonScript : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        tiles = GameObject.Find("Jungle").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+        tiles = GameObject.Find("Grid").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
+        if (tiles == null) { Debug.LogError("Make sure to name the grid \"Grid\""); }
         SetColor(startColor);
     }
 

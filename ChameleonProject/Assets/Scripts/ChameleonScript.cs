@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class ChameleonScript : MonoBehaviour
 {
-    public enum BodyColor {
+    public enum BodyColor
+    {
         Green,
         Blue,
         Red,
@@ -31,12 +32,17 @@ public class ChameleonScript : MonoBehaviour
     [SerializeField] private bool inBush; // track if in bush to make chameleon invisible
     public bool Visisble { get { return visible && !inBush; } }
 
+    private GameManager manager;
+    private int localFlyCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        manager = GameManager.Instance;
         body = GetComponent<Rigidbody2D>();
         tiles = GameObject.Find("Grid").transform.GetChild(0).gameObject.GetComponent<Tilemap>();
         if (tiles == null) { Debug.LogError("Make sure to name the grid \"Grid\""); }
+
         SetColor(startColor);
     }
 
@@ -44,7 +50,8 @@ public class ChameleonScript : MonoBehaviour
     void FixedUpdate()
     {
         // move
-        if(body.velocity != Vector2.zero) {
+        if (body.velocity != Vector2.zero)
+        {
             // apply friction
             Vector2 friction = body.velocity;
             friction.Normalize();
@@ -52,26 +59,30 @@ public class ChameleonScript : MonoBehaviour
             body.velocity += friction;
 
             // check if crossed zero (if velocity now points in direction of friction)
-            if(Vector2.Dot(friction, body.velocity) > 0) {
+            if (Vector2.Dot(friction, body.velocity) > 0)
+            {
                 body.velocity = Vector2.zero;
             }
         }
         Vector2 movement = GetMoveDirection();
-        if(movement != Vector2.zero) {
+        if (movement != Vector2.zero)
+        {
             // accelerate
             body.velocity += Acceleration * GetMoveDirection() * Time.deltaTime;
 
             // cap speed
-            if(body.velocity.magnitude > MaxSpeed) {
+            if (body.velocity.magnitude > MaxSpeed)
+            {
                 body.velocity = body.velocity.normalized;
                 body.velocity *= MaxSpeed;
             }
         }
 
         // rigidbody translates using velocity on its own
-        
+
         // rotate to face move direction
-        if(body.velocity != Vector2.zero) {
+        if (body.velocity != Vector2.zero)
+        {
             float angle = Mathf.Atan2(body.velocity.y, body.velocity.x) * 180f / Mathf.PI; // converted to degrees
             transform.rotation = Quaternion.Euler(0, 0, angle);
         }
@@ -79,25 +90,31 @@ public class ChameleonScript : MonoBehaviour
         // check visibility from tile
         visible = true; // visible until proven hidden
         Tile currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
-        if(currentTile) {
-            switch(color) {
+        if (currentTile)
+        {
+            switch (color)
+            {
                 case BodyColor.Blue:
-                    if(currentTile.sprite == blueSprite) {
+                    if (currentTile.sprite == blueSprite)
+                    {
                         visible = false;
                     }
                     break;
                 case BodyColor.Green:
-                    if(currentTile.sprite == greenSprite) {
+                    if (currentTile.sprite == greenSprite)
+                    {
                         visible = false;
                     }
                     break;
                 case BodyColor.Yellow:
-                    if(currentTile.sprite == yellowSprite) {
+                    if (currentTile.sprite == yellowSprite)
+                    {
                         visible = false;
                     }
                     break;
                 case BodyColor.Red:
-                    if(currentTile.sprite == redSprite) {
+                    if (currentTile.sprite == redSprite)
+                    {
                         visible = false;
                     }
                     break;
@@ -105,14 +122,17 @@ public class ChameleonScript : MonoBehaviour
         }
 
         // tongue shot
-        if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0)) {
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0))
+        {
 
         }
     }
 
-    private void SetColor(BodyColor color) {
+    private void SetColor(BodyColor color)
+    {
         this.color = color;
-        switch(color) {
+        switch (color)
+        {
             case BodyColor.Blue:
                 GetComponent<SpriteRenderer>().color = Color.blue;
                 break;
@@ -130,46 +150,64 @@ public class ChameleonScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Bush") {
+        if (collision.gameObject.tag == "Bush")
+        {
             SetColor(collision.gameObject.GetComponent<BushScript>().color);
             inBush = true;
         }
-        else if(collision.gameObject.tag == "Fly") {
+        else if (collision.gameObject.tag == "Fly")
+        {
+            EatFly();
             Destroy(collision.gameObject);
         }
     }
 
     // detect that the chameleon has left its bush. Bushes must not overlap for this to work
-    public void OnTriggerExit2D(Collider2D collision) {
-        if(collision.gameObject.tag == "Bush") {
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bush")
+        {
             inBush = false;
         }
     }
 
-    private Vector2 GetMoveDirection() {
+    private Vector2 GetMoveDirection()
+    {
         // check for gamepad
         Vector2 joystick = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if(joystick != Vector2.zero) {
+        if (joystick != Vector2.zero)
+        {
             return joystick;
         }
 
         // check for keyboard
         Vector2 result = new Vector2();
-        if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) { // right
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        { // right
             result.x += 1;
         }
-        if(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) { // left
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        { // left
             result.x += -1;
         }
-        if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) { // up
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        { // up
             result.y += 1;
         }
-        if(Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) { // down
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        { // down
             result.y += -1;
         }
-        if(result != Vector2.zero) {
+        if (result != Vector2.zero)
+        {
             result.Normalize();
         }
         return result;
+    }
+
+    private void EatFly()
+    {
+        localFlyCount++;
+        manager.UpdateFlyCount(localFlyCount);
     }
 }

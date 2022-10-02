@@ -32,7 +32,13 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-
+    public int FlyCount
+    {
+        get
+        {
+            return flyCount;
+        }
+    }
 
     public virtual void Awake()
     {
@@ -59,5 +65,11 @@ public class GameManager : MonoBehaviour
             case GameState.PAUSE:
                 break;
         }
+    }
+
+    public void UpdateFlyCount(int playerFlyCount)
+    {
+        flyCount = playerFlyCount;
+        Debug.Log("FlyCount: " + flyCount);
     }
 }

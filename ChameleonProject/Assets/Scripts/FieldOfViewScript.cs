@@ -9,6 +9,9 @@ public class FieldOfViewScript : MonoBehaviour
     [Range(0, 360)]
     public float viewAngle;
 
+    [Range(0, 360)]
+    public float fovRotation;
+
     public LayerMask targetMask;
     public LayerMask obstacleMask;
 
@@ -19,7 +22,9 @@ public class FieldOfViewScript : MonoBehaviour
     public float edgeDistanceThreshold;
 
     public MeshFilter viewMeshFilter;
-    Mesh viewMesh;
+    private Mesh viewMesh;
+
+    public bool targetAquired = false;
 
     //// Start is called before the first frame update
     private void Start()
@@ -44,28 +49,37 @@ public class FieldOfViewScript : MonoBehaviour
     private void LateUpdate()
     {
         DrawFieldOfView();
- 
+        fovRotation += 0.1f;
+        if(fovRotation >= 360)
+        {
+            fovRotation = 0;
+        }
+        transform.Rotate(0, 0, -6 * Time.deltaTime);
+
     }
 
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
 
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius, targetMask);
+        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x,
+             transform.position.y), viewRadius, targetMask);
         //Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, Mathf.Infinity, targetMask);
 
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
-            Vector3 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+            Vector2 dirToTarget = (target.position - transform.position).normalized;
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad))
+                , dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+                    targetAquired = true;
                 }
             }
         }
@@ -73,15 +87,15 @@ public class FieldOfViewScript : MonoBehaviour
 
     void DrawFieldOfView()
     {
-        int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
-        float stepAngleSize = viewAngle / stepCount;
+        int rayCount = Mathf.RoundToInt(viewAngle * meshResolution);
+        float stepAngleSize = viewAngle / rayCount;
         List<Vector3> viewPoints = new List<Vector3>();
 
         ViewCastInfo oldViewCast = new ViewCastInfo();
 
-        for (int i = 0; i <= stepCount; i++)
+        for (int i = 0; i < rayCount; i++)
         {
-            float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+            float angle = fovRotation - viewAngle / 2 + stepAngleSize * i;
             ViewCastInfo newViewCast = ViewCast(angle);
 
             if (i > 0)
@@ -162,19 +176,21 @@ public class FieldOfViewScript : MonoBehaviour
     ViewCastInfo ViewCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
-        RaycastHit hit;
+        RaycastHit2D hit;
         //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(dir.x, dir.y), Mathf.Infinity, obstacleMask);
 
-        if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
-        {
-            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-        }
-        //if (/*hit != null &&*/ hit.collider != null)
+        hit = Physics2D.Raycast(transform.position, dir, viewRadius, obstacleMask);
+
+        //if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
         //{
-
         //    return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-
         //}
+        if (hit.collider != null)
+        {
+
+            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+
+        }
         else
         {
             return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
@@ -187,8 +203,8 @@ public class FieldOfViewScript : MonoBehaviour
         //converts angle to global
         if (!angleIsGlobal)
         {
-            angleInDegrees -= transform.eulerAngles.z;
-            //angleInDegrees += transform.eulerAngles.y;
+            //angleInDegrees -= transform.eulerAngles.z;
+            angleInDegrees += fovRotation;
         }
         //return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
@@ -222,4 +238,5 @@ public class FieldOfViewScript : MonoBehaviour
             pointB = _pointB;
         }
     }
+
 }

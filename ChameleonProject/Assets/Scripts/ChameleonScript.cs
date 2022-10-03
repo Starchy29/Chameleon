@@ -31,7 +31,7 @@ public class ChameleonScript : MonoBehaviour
     private BodyColor color;
     private bool visible;
     [SerializeField] private bool inBush; // track if in bush to make chameleon invisible
-    public bool Visisble { get { return visible && !inBush; } }
+    public bool Visible { get { return visible && !inBush; } }
 
     private GameManager manager;
     private int localFlyCount = 0;

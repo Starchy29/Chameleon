@@ -483,6 +483,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake
       objectReference: {fileID: 0}
+    - target: {fileID: 977762797275472677, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: enemyMovement
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 977762797275472857, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1214,6 +1218,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 977762797275472677, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: viewAngle
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: 977762797275472677, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: fovRotation
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 977762797275472857, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1358,6 +1370,7 @@ MonoBehaviour:
   edgeDistanceThreshold: 0
   viewMeshFilter: {fileID: 998631246}
   targetAquired: 0
+  enemyMovement: 0
 --- !u!1 &1672227578
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,6 +1840,10 @@ PrefabInstance:
     - target: {fileID: 977762797275472675, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Name
       value: Snake (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 977762797275472677, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: enemyMovement
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472857, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Materials.Array.data[0]

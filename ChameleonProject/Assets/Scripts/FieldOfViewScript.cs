@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class FieldOfViewScript : MonoBehaviour
@@ -26,6 +27,16 @@ public class FieldOfViewScript : MonoBehaviour
 
     public bool targetAquired = false;
 
+    //enum for how the enemies move
+    [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
+
+    public enum EnemyMovement
+    {
+        FullSnakeRight,
+        FullSnakeLeft
+    }
+
+   
     //// Start is called before the first frame update
     private void Start()
     {
@@ -49,15 +60,55 @@ public class FieldOfViewScript : MonoBehaviour
     private void LateUpdate()
     {
         DrawFieldOfView();
+
+        FullSnakeRightMovement();
+
+        //moves the enemy and cone of vision depending on the enum
+        switch(enemyMovement)
+        {
+            case EnemyMovement.FullSnakeRight:
+                FullSnakeRightMovement();
+                break;
+            case EnemyMovement.FullSnakeLeft:
+                FullSnakeLeftMovement();
+                break;
+
+        }
+
+        Reset();
+    }
+
+    //rotates the snake to the right in a 360 degree angle
+    private void FullSnakeRightMovement()
+    {
         fovRotation += 0.1f;
-        if(fovRotation >= 360)
+        if (fovRotation >= 360)
         {
             fovRotation = 0;
         }
-        transform.Rotate(0, 0, -6 * Time.deltaTime);
 
+        Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
+        transform.rotation = rotation;
+
+        //Debug.Log("SNAKE: " + transform.rotation);
+        //Debug.Log("Vision: " + fovRotation);
     }
 
+    //rotates the snake to the left in a 360 degree angle
+    private void FullSnakeLeftMovement()
+    {
+        fovRotation -= 0.2f;
+        if (fovRotation <= -360)
+        {
+            fovRotation = 0;
+        }
+
+        Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
+        transform.rotation = rotation;
+        //transform.Rotate(0, 0, 12 * Time.deltaTime);
+    }
+
+    //detects any set targets
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
@@ -85,6 +136,7 @@ public class FieldOfViewScript : MonoBehaviour
         }
     }
 
+    //draws the field of vision
     void DrawFieldOfView()
     {
         int rayCount = Mathf.RoundToInt(viewAngle * meshResolution);
@@ -236,6 +288,16 @@ public class FieldOfViewScript : MonoBehaviour
         {
             pointA = _pointA;
             pointB = _pointB;
+        }
+    }
+
+    //resets the scene
+    private void Reset()
+    {
+        if(targetAquired == true)
+        {
+            //Application.LoadLevel(Application.loadedLevel);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 

@@ -10,7 +10,7 @@ public class ChameleonScript : MonoBehaviour
         Green,
         Blue,
         Red,
-        Yellow
+        Brown
     }
     //[SerializeField] private FieldOfView fieldOfView;
 
@@ -23,15 +23,15 @@ public class ChameleonScript : MonoBehaviour
     [SerializeField] private Sprite redSprite;
     [SerializeField] private Sprite blueSprite;
     [SerializeField] private Sprite greenSprite;
-    [SerializeField] private Sprite yellowSprite;
+    [SerializeField] private Sprite brownSprite;
 
     private Rigidbody2D body;
     private Tilemap tiles;
 
     private BodyColor color;
-    private bool visible;
-    [SerializeField] private bool inBush; // track if in bush to make chameleon invisible
-    public bool Visible { get { return visible && !inBush; } }
+    private bool onMatchingTile;
+    private bool inBush; // track if in bush to make chameleon invisible
+    public bool Visible { get { return !onMatchingTile && !inBush; } }
 
     private GameManager manager;
     private int localFlyCount = 0;
@@ -89,7 +89,7 @@ public class ChameleonScript : MonoBehaviour
         }
 
         // check visibility from tile
-        visible = true; // visible until proven hidden
+        onMatchingTile = false; // visible until proven hidden
         Tile currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
         if (currentTile)
         {
@@ -98,25 +98,25 @@ public class ChameleonScript : MonoBehaviour
                 case BodyColor.Blue:
                     if (currentTile.sprite == blueSprite)
                     {
-                        visible = false;
+                        onMatchingTile = true;
                     }
                     break;
                 case BodyColor.Green:
                     if (currentTile.sprite == greenSprite)
                     {
-                        visible = false;
+                        onMatchingTile = true;
                     }
                     break;
-                case BodyColor.Yellow:
-                    if (currentTile.sprite == yellowSprite)
+                case BodyColor.Brown:
+                    if (currentTile.sprite == brownSprite)
                     {
-                        visible = false;
+                        onMatchingTile = true;
                     }
                     break;
                 case BodyColor.Red:
                     if (currentTile.sprite == redSprite)
                     {
-                        visible = false;
+                        onMatchingTile = true;
                     }
                     break;
             }
@@ -147,8 +147,8 @@ public class ChameleonScript : MonoBehaviour
             case BodyColor.Red:
                 GetComponent<SpriteRenderer>().color = Color.red;
                 break;
-            case BodyColor.Yellow:
-                GetComponent<SpriteRenderer>().color = Color.yellow;
+            case BodyColor.Brown:
+                GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.1f, 0.1f);
                 break;
         }
     }

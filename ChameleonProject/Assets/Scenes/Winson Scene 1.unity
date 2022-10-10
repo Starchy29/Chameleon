@@ -1843,7 +1843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: enemyMovement
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472857, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Materials.Array.data[0]

@@ -27,16 +27,20 @@ public class FieldOfViewScript : MonoBehaviour
 
     public bool targetAquired = false;
 
+    bool lookingRight = true;
+    bool lookingLeft = true;
+
     //enum for how the enemies move
     [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
 
     public enum EnemyMovement
     {
         FullSnakeRight,
-        FullSnakeLeft
+        FullSnakeLeft,
+        HalfSnakeRight,
+        HalfSnakeLeft
     }
 
-   
     //// Start is called before the first frame update
     private void Start()
     {
@@ -44,7 +48,6 @@ public class FieldOfViewScript : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine("FindTargetsWithDelay", .2f);
-
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -61,7 +64,7 @@ public class FieldOfViewScript : MonoBehaviour
     {
         DrawFieldOfView();
 
-        FullSnakeRightMovement();
+        //FullSnakeRightMovement();
 
         //moves the enemy and cone of vision depending on the enum
         switch(enemyMovement)
@@ -71,6 +74,12 @@ public class FieldOfViewScript : MonoBehaviour
                 break;
             case EnemyMovement.FullSnakeLeft:
                 FullSnakeLeftMovement();
+                break;
+            case EnemyMovement.HalfSnakeRight:
+                HalfSnakeRightMovement();
+                break;
+            case EnemyMovement.HalfSnakeLeft:
+                HalfSnakeLeftMovement();
                 break;
 
         }
@@ -89,9 +98,6 @@ public class FieldOfViewScript : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
         transform.rotation = rotation;
-
-        //Debug.Log("SNAKE: " + transform.rotation);
-        //Debug.Log("Vision: " + fovRotation);
     }
 
     //rotates the snake to the left in a 360 degree angle
@@ -105,8 +111,58 @@ public class FieldOfViewScript : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
         transform.rotation = rotation;
-        //transform.Rotate(0, 0, 12 * Time.deltaTime);
     }
+
+    //rotates the snake to the right in a 180 degree angle
+    private void HalfSnakeRightMovement()
+    {
+        if(lookingRight == true)
+        {
+            fovRotation += 0.1f;
+        }
+        if(lookingRight == false)
+        {
+            fovRotation -= 0.2f;
+        }
+   
+        if (fovRotation > 180)
+        {
+            lookingRight = false;
+        }
+        if(fovRotation < 0)
+        {
+            lookingRight = true;
+        }
+
+        Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
+        transform.rotation = rotation;
+    }
+
+    //rotates the snake to the left in a 180 degree angle
+    private void HalfSnakeLeftMovement()
+    {
+        if (lookingLeft == true)
+        {
+            fovRotation -= 0.1f;
+        }
+        if (lookingLeft == false)
+        {
+            fovRotation += 0.2f;
+        }
+
+        if (fovRotation < -180)
+        {
+            lookingLeft = false;
+        }
+        if (fovRotation >= 0)
+        {
+            lookingLeft = true;
+        }
+
+        Quaternion rotation = Quaternion.Euler(0, 0, -fovRotation);
+        transform.rotation = rotation;
+    }
+
 
     //detects any set targets
     void FindVisibleTargets()
@@ -115,8 +171,6 @@ public class FieldOfViewScript : MonoBehaviour
 
         Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x,
              transform.position.y), viewRadius, targetMask);
-        //Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(transform.position, Mathf.Infinity, targetMask);
-
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
@@ -187,7 +241,6 @@ public class FieldOfViewScript : MonoBehaviour
                 triangles[i * 3 + 1] = i + 1;
                 triangles[i * 3 + 2] = i + 2;
             }
-
         }
 
         viewMesh.Clear();
@@ -229,24 +282,16 @@ public class FieldOfViewScript : MonoBehaviour
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit2D hit;
-        //RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(dir.x, dir.y), Mathf.Infinity, obstacleMask);
 
         hit = Physics2D.Raycast(transform.position, dir, viewRadius, obstacleMask);
 
-        //if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
-        //{
-        //    return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-        //}
         if (hit.collider != null)
         {
-
             return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
-
         }
         else
         {
             return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
-            //return new ViewCastInfo(false, transform.position + dir * Mathf.Infinity, Mathf.Infinity, globalAngle);
         }
     }
 
@@ -255,12 +300,10 @@ public class FieldOfViewScript : MonoBehaviour
         //converts angle to global
         if (!angleIsGlobal)
         {
-            //angleInDegrees -= transform.eulerAngles.z;
             angleInDegrees += fovRotation;
         }
         //return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
-
     }
 
     public struct ViewCastInfo
@@ -296,7 +339,6 @@ public class FieldOfViewScript : MonoBehaviour
     {
         if(targetAquired == true)
         {
-            //Application.LoadLevel(Application.loadedLevel);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }

@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Web-Build-1.unity
+    path: Assets/Scenes/Builds/Web-Build-1.unity
     guid: 9b15bb52b04f57c47b8a6581e3c153e9
   - enabled: 0
-    path: Assets/Scenes/Ethan Scene.unity
+    path: Assets/Scenes/Testing/Ethan Scene.unity
     guid: 9743635fbe1b9ac4883ad19d8fd96747
   - enabled: 0
     path: 

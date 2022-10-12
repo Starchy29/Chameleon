@@ -63,13 +63,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // why does it need to be destroyed of contains instance
         }
 
-        state = GameState.PLAY;
-    }
-    private void Start()
-    {
         // Scene name convention "Level-<#>"
         string[] sceneNameArray = SceneManager.GetActiveScene().name.Split('-');
-        if(sceneNameArray.Length >= 1)
+        if (sceneNameArray.Length >= 1)
         {
             level = int.Parse(sceneNameArray[1]);
         }
@@ -77,6 +73,11 @@ public class GameManager : MonoBehaviour
         {
             level++;
         }
+
+        state = GameState.PLAY;
+    }
+    private void Start()
+    {
         Debug.Log("Level " + level);
     }
     private void Update()

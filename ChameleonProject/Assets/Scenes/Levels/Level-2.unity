@@ -786,7 +786,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4399274653554844945, guid: 7bf0ff5de5f8b2f4296948283b0bf8d8, type: 3}
       propertyPath: m_Name
-      value: level-2
+      value: Grid-2
       objectReference: {fileID: 0}
     - target: {fileID: 4399274653554844947, guid: 7bf0ff5de5f8b2f4296948283b0bf8d8, type: 3}
       propertyPath: m_RootOrder

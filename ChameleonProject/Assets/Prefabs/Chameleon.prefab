@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2822097925863929346}
   - component: {fileID: 2312048413471697482}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 6724434461175263426}
   - component: {fileID: 4768616975163708811}
   - component: {fileID: 6724434461175263424}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Chameleon
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499214200556715847}
   - component: {fileID: 1844531747891898222}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

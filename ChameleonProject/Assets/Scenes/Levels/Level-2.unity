@@ -727,9 +727,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3624858311351372987, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263423, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_Name
       value: Chameleon
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724434461175263423, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263425, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_RootOrder
@@ -774,6 +782,10 @@ PrefabInstance:
     - target: {fileID: 6724434461175263425, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309879797220050977, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033587b82a565c94082ece42287f7eba, type: 3}

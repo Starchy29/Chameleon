@@ -84,7 +84,10 @@ public class FieldOfViewScript : MonoBehaviour
 
         }
 
-        Reset();
+        if (targetAquired)
+        {
+            GameManager.Instance.RestartLevel();
+        }
     }
 
     //rotates the snake to the right in a 360 degree angle
@@ -333,14 +336,4 @@ public class FieldOfViewScript : MonoBehaviour
             pointB = _pointB;
         }
     }
-
-    //resets the scene
-    private void Reset()
-    {
-        if(targetAquired == true)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
-
 }

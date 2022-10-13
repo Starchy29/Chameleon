@@ -11,9 +11,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Testing/Ethan Scene.unity
     guid: 9743635fbe1b9ac4883ad19d8fd96747
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 16546ad01ae02f640b629788db179461

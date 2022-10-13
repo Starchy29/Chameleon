@@ -107,7 +107,7 @@ public class FieldOfViewScript : MonoBehaviour
     //rotates the snake to the left in a 360 degree angle
     private void FullSnakeLeftMovement()
     {
-        fovRotation -= 0.2f;
+        fovRotation -= 0.1f;
         if (fovRotation <= -360)
         {
             fovRotation = 0;
@@ -126,7 +126,7 @@ public class FieldOfViewScript : MonoBehaviour
         }
         if(lookingRight == false)
         {
-            fovRotation -= 0.2f;
+            fovRotation -= 0.1f;
         }
    
         if (fovRotation > 180)
@@ -151,7 +151,7 @@ public class FieldOfViewScript : MonoBehaviour
         }
         if (lookingLeft == false)
         {
-            fovRotation += 0.2f;
+            fovRotation += 0.1f;
         }
 
         if (fovRotation < -180)

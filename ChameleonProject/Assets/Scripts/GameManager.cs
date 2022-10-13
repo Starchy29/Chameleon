@@ -138,6 +138,7 @@ public class GameManager : MonoBehaviour
         if(currentLevel.Number < levelData.Levels.Count)
         {
             Debug.Log("Next Level!");
+            ResetVariables();
 
             // Jank - updating current level depends on scene while scene (start method) depends on current level
             // So currentLevel needs to be updated before 
@@ -162,7 +163,7 @@ public class GameManager : MonoBehaviour
         {
             state = GameState.WIN;
             SceneManager.LoadScene(0); // This gets the next scene in the build index
-            Destroy(this);
+            Destroy(gameObject);
         }
         Debug.Log("There are no more levels");
     }
@@ -172,9 +173,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
+        ResetVariables();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    /// <summary>
+    /// Resets level variables
+    /// </summary>
+    private void ResetVariables()
+    {
+        UpdateFlyCount(0); // Reset fly count
+    }
     /// <summary>
     /// Quits the game.
     /// </summary>

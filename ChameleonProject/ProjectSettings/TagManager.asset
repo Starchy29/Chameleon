@@ -51,9 +51,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Goal
-    uniqueID: 2552987667
+  - name: Character
+    uniqueID: 1392916433
     locked: 0
-  - name: Walls
-    uniqueID: 2381081779
+  - name: Environment
+    uniqueID: 1424287997
     locked: 0

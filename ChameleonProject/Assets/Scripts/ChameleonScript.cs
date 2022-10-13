@@ -41,16 +41,16 @@ public class ChameleonScript : MonoBehaviour
     {
         manager = GameManager.Instance;
         body = GetComponent<Rigidbody2D>();
-        // Grid needs to be labeled "Grid-<level#>"
-        GameObject tempGrid = GameObject.Find("Grid-" + manager.Level);
-        if(tempGrid == null)
+        //GameObject tempGrid = GameObject.Find("Grid-" + manager.Level);
+        try
         {
-            Debug.LogError("Make sure to name the grid properly \"Grid-#\"");
-        }
-        else
-        {
+            GameObject tempGrid = GameObject.Find("Grid"); // Grid needs to be labeled "Grid"
             tiles = tempGrid.transform.GetChild(1).gameObject.GetComponent<Tilemap>(); // Base layer is 1
             Debug.Log("Init Chameleon");
+        }
+        catch
+        {
+            Debug.LogError("Make sure to name the grid properly \"Grid\"");
         }
 
         SetColor(startColor);

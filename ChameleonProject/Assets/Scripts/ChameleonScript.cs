@@ -42,9 +42,17 @@ public class ChameleonScript : MonoBehaviour
         manager = GameManager.Instance;
         body = GetComponent<Rigidbody2D>();
         // Grid needs to be labeled "Grid-<level#>"
-        tiles = GameObject.Find("Grid-" + manager.Level).transform.GetChild(1).gameObject.GetComponent<Tilemap>(); // Base layer is 1
-        if (tiles == null) { Debug.LogError("Make sure to name the grid \"Grid\""); }
-        else { Debug.Log("Start Chameleon"); }
+        GameObject tempGrid = GameObject.Find("Grid-" + manager.Level);
+        if(tempGrid == null)
+        {
+            Debug.LogError("Make sure to name the grid properly \"Grid-#\"");
+        }
+        else
+        {
+            tiles = tempGrid.transform.GetChild(1).gameObject.GetComponent<Tilemap>(); // Base layer is 1
+            Debug.Log("Init Chameleon");
+        }
+
         SetColor(startColor);
     }
 

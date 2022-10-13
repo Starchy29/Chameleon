@@ -6,19 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    private GameObject[] flies;
-    private int flyCount;
-    private const int MAX_FLIES = 3;
-    private int level = 0;
-
     public enum GameState
     {
         PLAY,
-        PAUSE
+        PAUSE,
+        WIN
     }
+    private int flyCount;
+    private LevelData levelData;
+    private Level currentLevel;
     private GameState state;
     private static GameManager instance;
+
     public static GameManager Instance
     {
         get
@@ -47,9 +46,10 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            return level;
+            return currentLevel.Number;
         }
     }
+
     public virtual void Awake()
     {
         // Singleton instantiation
@@ -63,22 +63,13 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // why does it need to be destroyed of contains instance
         }
 
-        // Scene name convention "Level-<#>"
-        string[] sceneNameArray = SceneManager.GetActiveScene().name.Split('-');
-        if (sceneNameArray.Length >= 1)
-        {
-            level = int.Parse(sceneNameArray[1]);
-        }
-        else
-        {
-            level++;
-        }
+        levelData = new LevelData();
+        levelData.Init(); // inits and can fill with first level
+
+        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene());
+        Debug.Log("Level " + currentLevel.Number);
 
         state = GameState.PLAY;
-    }
-    private void Start()
-    {
-        Debug.Log("Level " + level);
     }
     private void Update()
     {
@@ -88,9 +79,32 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PAUSE:
                 break;
+            case GameState.WIN:
+                Debug.Log("WIN");
+                break;
         }
     }
 
+    /// <summary>
+    /// Gets level from scene name
+    /// Checks if started from another level
+    /// </summary>
+    private Level GetLevelFromScene(Scene scene)
+    {
+        string[] sceneNameArray = scene.name.Split('-'); // Scene name convention "Level-<#>"
+
+        if (sceneNameArray.Length >= 1)
+        {
+            int levelNumber = int.Parse(sceneNameArray[1]);
+            return levelData.Levels[levelNumber - 1];
+        }
+        return null;
+    }
+    
+    /// <summary>
+    /// Updates manager fly count
+    /// </summary>
+    /// <param name="playerFlyCount">number of flies eaten in the current level</param>
     public void UpdateFlyCount(int playerFlyCount)
     {
         flyCount = playerFlyCount;
@@ -104,11 +118,14 @@ public class GameManager : MonoBehaviour
     public void AteEnoughFlies()
     {
         // Should be a player method
-        if(flyCount >= MAX_FLIES)
+        Debug.Log("Check finish");
+        if (flyCount >= currentLevel.MaxFlies)
         {
+            Debug.Log("You have enough Flies!");
             NextScene();
-            level++;
+            return;
         }
+
         Debug.Log("Did not eat enough flies");
     }
 
@@ -117,7 +134,37 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void NextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // This gets the next scene in the build index
+        // check if there are more levels
+        if(currentLevel.Number < levelData.Levels.Count)
+        {
+            Debug.Log("Next Level!");
+
+            // Jank - updating current level depends on scene while scene (start method) depends on current level
+            // So currentLevel needs to be updated before 
+
+
+            int nextLevelIndex = (currentLevel.Number - 1) + 1; // +-1 makes sense relative to index
+            currentLevel = levelData.Levels[nextLevelIndex];
+
+            //Scene nextScene = SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1); // Gets next scene
+            //currentLevel = GetLevelFromScene(nextScene); // get new level
+
+            // Load Scene - level# needs to be updated
+            //SceneManager.LoadScene(nextScene.buildIndex); // This gets the next scene in the build index
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // This gets the next scene in the build index
+
+            Debug.Log("Level " + currentLevel.Number);
+            //currentLevel = levelData.Levels[currentLevel.Number]; // gets next level
+            //SceneManager.LoadScene(currentLevel.Number); // Could use current level if sync'd up
+            return;
+        }
+        else
+        {
+            state = GameState.WIN;
+            SceneManager.LoadScene(0); // This gets the next scene in the build index
+            Destroy(this);
+        }
+        Debug.Log("There are no more levels");
     }
 
     /// <summary>

@@ -84,6 +84,7 @@ public class FieldOfViewScript : MonoBehaviour
 
         }
 
+        // Reset scene
         if (targetAquired)
         {
             GameManager.Instance.RestartLevel();
@@ -172,22 +173,31 @@ public class FieldOfViewScript : MonoBehaviour
     {
         visibleTargets.Clear();
 
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x,
-             transform.position.y), viewRadius, targetMask);
+        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), viewRadius, targetMask);
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
             Vector2 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad))
-                , dirToTarget) < viewAngle / 2)
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle / 2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
-                    targetAquired = true;
+
+                    // Check if chameleon is visable & if object is the chameleon
+                    ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
+                    if (chameleonScript != null)
+                    {
+                        if (chameleonScript.Visible)
+                        {
+                            targetAquired = true;
+                        }
+                        else { targetAquired = false; }
+                    }
+                    else { targetAquired = false; }
                 }
             }
         }

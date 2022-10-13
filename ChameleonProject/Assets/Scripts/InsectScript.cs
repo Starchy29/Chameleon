@@ -8,16 +8,15 @@ public class InsectScript : MonoBehaviour
     private bool active;
     public bool Active { get { return active; } }
 
+    private GameManager gameManager;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-
+        gameManager = GameManager.Instance;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        //gameManager.AteFly(); // could do this instead of player calculating
     }
 }

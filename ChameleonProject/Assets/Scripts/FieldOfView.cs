@@ -9,7 +9,7 @@ public class FieldOfView : MonoBehaviour
     private Vector3 origin;
     private float startingAngle;
     private float fov;
-    // Start is called before the first frame update
+
     void Start()
     {
         mesh = new Mesh();
@@ -19,7 +19,6 @@ public class FieldOfView : MonoBehaviour
         //  transform.position += new Vector3(-transform.parent.position.x, -transform.parent.position.y, 0f);
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
         //Vector3 origin = Vector3.zero;

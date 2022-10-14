@@ -38,7 +38,11 @@ public class FieldOfViewScript : MonoBehaviour
         FullSnakeRight,
         FullSnakeLeft,
         HalfSnakeRight,
-        HalfSnakeLeft
+        HalfSnakeLeft,
+        FaceNorth,
+        FaceEast,
+        FaceSouth,
+        FaceWest
     }
 
     //// Start is called before the first frame update
@@ -80,6 +84,18 @@ public class FieldOfViewScript : MonoBehaviour
                 break;
             case EnemyMovement.HalfSnakeLeft:
                 HalfSnakeLeftMovement();
+                break;
+            case EnemyMovement.FaceNorth:
+                fovRotation = 0;
+                break;
+            case EnemyMovement.FaceEast:
+                fovRotation = 90;
+                break;
+            case EnemyMovement.FaceSouth:
+                fovRotation = 180;
+                break;
+            case EnemyMovement.FaceWest:
+                fovRotation = 270;
                 break;
 
         }

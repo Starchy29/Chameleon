@@ -30,6 +30,19 @@ public class FieldOfViewScript : MonoBehaviour
     bool lookingRight = true;
     bool lookingLeft = true;
 
+
+
+
+    //array of waypoints
+    [SerializeField]
+    private Transform[] waypoints;
+
+    //walk speed
+    [SerializeField]
+    private float moveSpeed = 2f;
+
+    private int waypointIndex = 0;
+
     //enum for how the enemies move
     [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
 
@@ -42,7 +55,8 @@ public class FieldOfViewScript : MonoBehaviour
         FaceNorth,
         FaceEast,
         FaceSouth,
-        FaceWest
+        FaceWest,
+        BirdMovement
     }
 
     //// Start is called before the first frame update
@@ -52,6 +66,8 @@ public class FieldOfViewScript : MonoBehaviour
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine("FindTargetsWithDelay", .2f);
+
+        transform.position = waypoints[waypointIndex].transform.position;
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -97,6 +113,9 @@ public class FieldOfViewScript : MonoBehaviour
             case EnemyMovement.FaceWest:
                 fovRotation = 270;
                 break;
+            case EnemyMovement.BirdMovement:
+                BirdMovement();
+                break;
 
         }
 
@@ -107,10 +126,46 @@ public class FieldOfViewScript : MonoBehaviour
         }
     }
 
+    //movement for the bird
+    private void BirdMovement()
+    {
+        if (waypointIndex <= waypoints.Length - 1)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position
+                , moveSpeed * Time.deltaTime);
+
+            //changes waypoints after getting within a certain distance
+            if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 3)
+            {
+                waypointIndex += 1;
+            }
+
+            //rotate upon reaching a new waypoint
+            Vector3 targetinVec3 = new Vector3(waypoints[waypointIndex].transform.position.x,
+                waypoints[waypointIndex].transform.position.y, 0f);
+
+            Vector3 direction2 = targetinVec3 - transform.position;
+            float angle = Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg - 90;
+            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+           // transform.rotation = rotation;
+
+            //transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointIndex].transform.position,
+            //    moveSpeed * Time.deltaTime);
+
+            fovRotation = angle;
+        }
+
+        if (waypointIndex == waypoints.Length)
+        {
+            waypointIndex = 0;
+        }
+    }
+
     //rotates the snake to the right in a 360 degree angle
     private void FullSnakeRightMovement()
     {
-        fovRotation += 0.1f;
+        fovRotation += 0.2f;
         if (fovRotation >= 360)
         {
             fovRotation = 0;
@@ -123,7 +178,7 @@ public class FieldOfViewScript : MonoBehaviour
     //rotates the snake to the left in a 360 degree angle
     private void FullSnakeLeftMovement()
     {
-        fovRotation -= 0.1f;
+        fovRotation -= 0.2f;
         if (fovRotation <= -360)
         {
             fovRotation = 0;
@@ -138,11 +193,11 @@ public class FieldOfViewScript : MonoBehaviour
     {
         if(lookingRight == true)
         {
-            fovRotation += 0.1f;
+            fovRotation += 0.2f;
         }
         if(lookingRight == false)
         {
-            fovRotation -= 0.1f;
+            fovRotation -= 0.2f;
         }
    
         if (fovRotation > 180)
@@ -163,11 +218,11 @@ public class FieldOfViewScript : MonoBehaviour
     {
         if (lookingLeft == true)
         {
-            fovRotation -= 0.1f;
+            fovRotation -= 0.2f;
         }
         if (lookingLeft == false)
         {
-            fovRotation += 0.1f;
+            fovRotation += 0.2f;
         }
 
         if (fovRotation < -180)

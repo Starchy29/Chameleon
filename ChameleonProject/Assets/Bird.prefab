@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 977762796585776105}
   - component: {fileID: 977762796585776108}
   - component: {fileID: 977762796585776106}
-  m_Layer: 0
-  m_Name: Snake View Visualization
+  m_Layer: 11
+  m_Name: Bird View Visualization
   m_TagString: Enemy Vision
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,9 +115,9 @@ GameObject:
   - component: {fileID: 977762797275472678}
   - component: {fileID: 977762797275472677}
   - component: {fileID: 977762797275472676}
-  m_Layer: 3
-  m_Name: Snake
-  m_TagString: Snake
+  m_Layer: 11
+  m_Name: Bird
+  m_TagString: Bird
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +179,7 @@ SpriteRenderer:
   m_SortingLayerID: 1392916433
   m_SortingLayer: 1
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: eb305f66f2334b74b8a32ac34accf010, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e7876fa8354822c488e52587159f7800, type: 3}
   m_Color: {r: 0.4933504, g: 0.8113208, b: 0.4240299, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -244,7 +244,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.05, y: 1.25}
+    oldSize: {x: 1.26, y: 0.99}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -273,7 +273,7 @@ MonoBehaviour:
     m_Bits: 512
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 1280
+    m_Bits: 0
   visibleTargets: []
   meshResolution: 10
   edgeResolveIterations: 0
@@ -281,8 +281,8 @@ MonoBehaviour:
   viewMeshFilter: {fileID: 977762796585776105}
   targetAquired: 0
   waypoints: []
-  moveSpeed: 2
-  enemyMovement: 0
+  moveSpeed: 1
+  enemyMovement: 8
 --- !u!114 &977762797275472676
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1167,7 +1167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741056419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7714267, y: -2.8001819, z: -10}
+  m_LocalPosition: {x: -0.778595, y: -2.8002408, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1549,6 +1549,8 @@ MonoBehaviour:
   edgeDistanceThreshold: 0
   viewMeshFilter: {fileID: 977762796983323813}
   targetAquired: 0
+  waypoints: []
+  moveSpeed: 2
   enemyMovement: 0
 --- !u!61 &977762797438671978
 BoxCollider2D:
@@ -1567,7 +1569,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 1.05, y: 1.25}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1675,7 +1677,7 @@ SpriteRenderer:
   m_SortingLayerID: 1392916433
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 748ae8b33df036b46a86e0387f1602cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb305f66f2334b74b8a32ac34accf010, type: 3}
   m_Color: {r: 0.4933504, g: 0.8113208, b: 0.4240299, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -136,10 +136,6 @@ public class ChameleonScript : MonoBehaviour
         {
 
         }
-
-        //adjusts field of vision
-        //fieldOfView.SetAimDirection(movement);
-        //fieldOfView.SetOrigin(transform.position);
     }
 
     private void SetColor(BodyColor color)

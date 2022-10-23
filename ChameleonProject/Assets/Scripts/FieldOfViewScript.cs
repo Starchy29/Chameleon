@@ -67,7 +67,11 @@ public class FieldOfViewScript : MonoBehaviour
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine("FindTargetsWithDelay", .2f);
 
-        transform.position = waypoints[waypointIndex].transform.position;
+        if(waypoints.Length > 0)
+        {
+            transform.position = waypoints[waypointIndex].transform.position;
+        }
+  
     }
 
     IEnumerator FindTargetsWithDelay(float delay)

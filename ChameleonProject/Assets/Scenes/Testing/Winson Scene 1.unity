@@ -1045,9 +1045,8 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1164700170
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 383207961425894312, guid: 9cff2f9967e1de545802040504bb3709, type: 3}
+  m_PrefabInstance: {fileID: 383207960247635980}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164700169}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}

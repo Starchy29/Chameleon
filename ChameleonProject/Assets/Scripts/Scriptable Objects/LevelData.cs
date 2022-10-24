@@ -58,7 +58,7 @@ public class LevelData : ScriptableObject
     /// Creates levels with data and returns first level
     /// </summary>
     /// <returns>First level</returns>
-    public Level Init()
+    public Level InitLevels()
     {
         levels = new List<Level>();
         CreateLevel(1, 3);
@@ -67,6 +67,11 @@ public class LevelData : ScriptableObject
         Debug.Log("Init Levels");
 
         return levels[0];
+    }
+
+    public LevelData()
+    {
+        InitLevels();
     }
 
     /// <summary>

@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private Level currentLevel;
     private GameState state;
     private static GameManager instance;
+    private static UIManager ui;
 
     public static GameManager Instance
     {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
                     GameObject obj = new GameObject();
                     obj.name = typeof(GameManager).Name;
                     instance = obj.AddComponent<GameManager>();
+                    ui = obj.AddComponent<UIManager>();
                 }
             }
             return instance;
@@ -63,13 +65,25 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // why does it need to be destroyed of contains instance
         }
 
+        // Init LevelData
         levelData = new LevelData();
-        levelData.Init(); // inits and can fill with first level
+        Debug.Log("Init Level Data");
 
-        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene());
-        Debug.Log("Level " + currentLevel.Number);
+        // Init UI
+        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene()); // Get current level
+        Debug.Log("Init Level " + currentLevel.Number);
 
+        // Init GameState
         state = GameState.PLAY;
+        Debug.Log("Init Game State");
+    }
+    private void Start()
+    {
+        ui.UpdateLevelUI(currentLevel.Number.ToString());
+        ui.UpdateProgressUI(flyCount.ToString());
+        ui.UpdateProgressCapUI(currentLevel.MaxFlies.ToString());
+        ui.UpdateObjectiveUI("Get to your home tree");
+        Debug.Log("Init UI");
     }
     private void Update()
     {
@@ -108,6 +122,7 @@ public class GameManager : MonoBehaviour
     public void UpdateFlyCount(int playerFlyCount)
     {
         flyCount = playerFlyCount;
+        ui.UpdateProgressUI(flyCount.ToString());
         Debug.Log("FlyCount: " + flyCount);
     }
 
@@ -146,7 +161,6 @@ public class GameManager : MonoBehaviour
 
             int nextLevelIndex = (currentLevel.Number - 1) + 1; // +-1 makes sense relative to index
             currentLevel = levelData.Levels[nextLevelIndex];
-
             //Scene nextScene = SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1); // Gets next scene
             //currentLevel = GetLevelFromScene(nextScene); // get new level
 
@@ -157,6 +171,8 @@ public class GameManager : MonoBehaviour
             Debug.Log("Level " + currentLevel.Number);
             //currentLevel = levelData.Levels[currentLevel.Number]; // gets next level
             //SceneManager.LoadScene(currentLevel.Number); // Could use current level if sync'd up
+            ui.UpdateLevelUI(currentLevel.Number.ToString());
+
             return;
         }
         else
@@ -164,6 +180,7 @@ public class GameManager : MonoBehaviour
             state = GameState.WIN;
             SceneManager.LoadScene(0); // This gets the next scene in the build index
             Destroy(gameObject);
+            ui.UpdateObjectiveUI("You Win");
         }
         Debug.Log("There are no more levels");
     }

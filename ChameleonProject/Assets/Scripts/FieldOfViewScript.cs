@@ -41,6 +41,7 @@ public class FieldOfViewScript : MonoBehaviour
     [SerializeField]
     private float moveSpeed = 2f;
 
+    [SerializeField]
     private int waypointIndex = 0;
 
     //enum for how the enemies move
@@ -133,7 +134,7 @@ public class FieldOfViewScript : MonoBehaviour
     //movement for the bird
     private void BirdMovement()
     {
-        if (waypointIndex <= waypoints.Length - 1)
+        if (waypointIndex < waypoints.Length)
         {
             transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position
                 , moveSpeed * Time.deltaTime);
@@ -142,6 +143,10 @@ public class FieldOfViewScript : MonoBehaviour
             if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 3)
             {
                 waypointIndex += 1;
+                if (waypointIndex == waypoints.Length)
+                {
+                    waypointIndex = 0;
+                }
             }
 
             //rotate upon reaching a new waypoint
@@ -160,10 +165,7 @@ public class FieldOfViewScript : MonoBehaviour
             fovRotation = angle;
         }
 
-        if (waypointIndex == waypoints.Length)
-        {
-            waypointIndex = 0;
-        }
+  
     }
 
     //rotates the snake to the right in a 360 degree angle

@@ -1167,7 +1167,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741056419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.778595, y: -2.8002408, z: -10}
+  m_LocalPosition: {x: -0.76302147, y: -2.8001134, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1442,7 +1442,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0e5fce9f3f300854daa62b8979264769, type: 2}
+  - {fileID: 2100000, guid: c897aef09cdfe5d418b42af7f3db0aa8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1551,6 +1551,7 @@ MonoBehaviour:
   targetAquired: 0
   waypoints: []
   moveSpeed: 2
+  waypointIndex: 0
   enemyMovement: 0
 --- !u!61 &977762797438671978
 BoxCollider2D:

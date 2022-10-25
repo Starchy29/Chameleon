@@ -34,12 +34,13 @@ public class ChameleonScript : MonoBehaviour
     public bool Visible { get { return !onMatchingTile && !inBush; } }
 
     private GameManager manager;
+    private UIManager uiManager;
     private int localFlyCount = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         manager = GameManager.Instance;
+        uiManager = manager.GetComponent<UIManager>();
         body = GetComponent<Rigidbody2D>();
         //GameObject tempGrid = GameObject.Find("Grid-" + manager.Level);
         try
@@ -141,21 +142,26 @@ public class ChameleonScript : MonoBehaviour
     private void SetColor(BodyColor color)
     {
         this.color = color;
+        Color newColor = Color.white;
         switch (color)
         {
             case BodyColor.Blue:
-                GetComponent<SpriteRenderer>().color = Color.blue;
+                newColor = Color.blue;
                 break;
             case BodyColor.Green:
-                GetComponent<SpriteRenderer>().color = Color.green;
+                newColor = Color.green;
                 break;
             case BodyColor.Red:
-                GetComponent<SpriteRenderer>().color = Color.red;
+                newColor = Color.red;
                 break;
             case BodyColor.Brown:
-                GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.1f, 0.1f);
+                newColor = new Color(0.5f, 0.1f, 0.1f);
                 break;
         }
+        GetComponent<SpriteRenderer>().color = newColor;
+
+        // Update UI
+        uiManager.UpdateColorUI(newColor);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

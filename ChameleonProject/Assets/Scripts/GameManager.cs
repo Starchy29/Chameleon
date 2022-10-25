@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+    public static UIManager UI
+    {
+        get { return ui; }
+    }
+
     public int FlyCount
     {
         get
@@ -127,7 +132,7 @@ public class GameManager : MonoBehaviour
     /// Checks if player can win
     /// </summary>
     /// <returns>If player can win - bool</returns>
-    public void AteEnoughFlies()
+    public void CheckWin()
     {
         // Should be a player method
         //Debug.Log("Check finish");
@@ -191,7 +196,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Debug.Log("Init Level " + currentLevel.Number);
-        Debug.Log("OnSceneLoaded: " + scene.name + " m/"+mode);
+        Debug.Log("OnSceneLoaded: " + scene.name);
         //Debug.Log(mode);
 
         // Update Scene UI

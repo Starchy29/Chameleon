@@ -7,18 +7,20 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    private GameObject gui;
-
     private TextMeshProUGUI levelValue;
-    private Image colorUIimage; // image?
+    private Image colorUIimage;
     private TextMeshProUGUI progressValue;
     private TextMeshProUGUI progressCap;
     private TextMeshProUGUI visibilityValue;
     private TextMeshProUGUI objectiveLabel;
 
+    /// <summary>
+    /// Get UI objects of current scene
+    /// </summary>
+    /// <returns>If the method succeeded</returns>
     public bool GetSceneUI()
     {
-        gui = GameObject.Find("GUI");
+        GameObject gui = GameObject.Find("GUI");
         if (gui == null)
         {
             Debug.LogError("Missing \"GUI\" Object");
@@ -84,37 +86,62 @@ public class UIManager : MonoBehaviour
         objectiveLabel = objectiveUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         return true;
     }
-
+    /// <summary>
+    /// Updates the level number
+    /// </summary>
+    /// <param name="levelNumber">The number of the level</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateLevelUI(string levelNumber)
     {
         levelValue.text = levelNumber;
         return true;
     }
-
+    /// <summary>
+    /// Updates the color indicator to show the color of the chameleon
+    /// </summary>
+    /// <param name="chameleonColor">Color to update as. Should be chameleons color</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateColorUI(Color chameleonColor)
     {
         colorUIimage.color = chameleonColor;
         return true;
     }
-    
+    /// <summary>
+    /// Updates number of flies eaten
+    /// </summary>
+    /// <param name="fliesEaten">Number of flies eaten</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateProgressUI(string fliesEaten)
     {
         progressValue.text = fliesEaten;
         return true;
     }
-
+    /// <summary>
+    /// Updates the number of required collectables to eat before being able to complete the level
+    /// In this case our collectables are flies
+    /// </summary>
+    /// <param name="numberOfCollectables">Number of collectables to obtain</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateProgressCapUI(string numberOfCollectables)
     {
         progressCap.text = numberOfCollectables;
         return true;
     }
-
+    /// <summary>
+    /// Updates the visibility indicator of the player
+    /// </summary>
+    /// <param name="visibility">Visibility of chameleon</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateVisibilityUI(string visibility)
     {
         visibilityValue.text = visibility;
         return true;
     }
-
+    /// <summary>
+    /// Updates the players objective on screen
+    /// </summary>
+    /// <param name="objective">The players objective in text</param>
+    /// <returns>If the method succeeded</returns>
     public bool UpdateObjectiveUI(string objective)
     {
         objectiveLabel.text = objective;

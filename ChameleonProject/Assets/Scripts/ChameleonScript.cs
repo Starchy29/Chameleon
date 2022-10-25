@@ -176,6 +176,11 @@ public class ChameleonScript : MonoBehaviour
             //Debug.Log("COLLISION");
             transform.position = Vector3.zero;
         }
+
+        else if (collision.gameObject.tag == "Snake")
+        {
+            GameManager.Instance.RestartLevel();
+        }
     }
 
     // detect that the chameleon has left its bush. Bushes must not overlap for this to work

@@ -130,6 +130,9 @@ public class ChameleonScript : MonoBehaviour
                     }
                     break;
             }
+
+            // Updates Visibility UI
+            uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
         }
 
         // tongue shot

@@ -290,7 +290,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120648616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.65343, y: -2.765712, z: -10}
+  m_LocalPosition: {x: 0.6450243, y: -2.7657125, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -734,6 +734,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 308108680}
     m_Modifications:
+    - target: {fileID: 977762796585776108, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c897aef09cdfe5d418b42af7f3db0aa8, type: 2}
     - target: {fileID: 977762797275472675, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Name
       value: Snake (1)
@@ -1099,6 +1103,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 308108680}
     m_Modifications:
+    - target: {fileID: 977762796585776108, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c897aef09cdfe5d418b42af7f3db0aa8, type: 2}
     - target: {fileID: 977762797275472675, guid: df13f6d6eb1124d46b5a3878fd8d0b24, type: 3}
       propertyPath: m_Name
       value: Snake

@@ -47,7 +47,7 @@ public class FieldOfViewScript : MonoBehaviour
     //enum for how the enemies move
     [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
 
-    public enum EnemyMovement
+    public enum EnemyMovement // I would make a BirdMovement enum and SnakeMovement
     {
         FullSnakeRight,
         FullSnakeLeft,

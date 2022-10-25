@@ -16,13 +16,13 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI visibilityValue;
     private TextMeshProUGUI objectiveLabel;
 
-    private void Awake()
+    public bool GetSceneUI()
     {
         gui = GameObject.Find("GUI");
-        if(gui == null)
+        if (gui == null)
         {
             Debug.LogError("Missing \"GUI\" Object");
-            return;
+            return false;
         }
 
         // Gameplay UI (parent)
@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
         if (gameplayUI == null)
         {
             Debug.LogError("Missing \"GameplayUI\" Object");
-            return;
+            return false;
         }
 
         // Level UI
@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
         if (levelUI == null)
         {
             Debug.LogError("Missing \"LevelUI\" Object");
-            return;
+            return false;
         }
         levelValue = levelUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
 
@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
         if (colorUI == null)
         {
             Debug.LogError("Missing \"ColorUI\" Object");
-            return;
+            return false;
         }
         GameObject colorUIobj = colorUI.transform.GetChild(1).GetChild(1).gameObject;
         colorUIimage = colorUIobj.GetComponent<Image>();
@@ -57,7 +57,8 @@ public class UIManager : MonoBehaviour
         if (progressUI == null)
         {
             Debug.LogError("Missing \"ProgressUI\" Object");
-            return;
+            return false;
+
         }
         progressValue = progressUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
         progressCap = progressUI.transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>();
@@ -67,7 +68,8 @@ public class UIManager : MonoBehaviour
         if (visibilityUI == null)
         {
             Debug.LogError("Missing \"VisibilityUI\" Object");
-            return;
+            return false;
+
         }
         visibilityValue = visibilityUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
 
@@ -76,9 +78,11 @@ public class UIManager : MonoBehaviour
         if (objectiveUI == null)
         {
             Debug.LogError("Missing \"ObjectiveUI\" Object");
-            return;
+            return false;
+
         }
         objectiveLabel = objectiveUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        return true;
     }
 
     public bool UpdateLevelUI(string levelNumber)
@@ -93,7 +97,6 @@ public class UIManager : MonoBehaviour
         return true;
     }
     
-
     public bool UpdateProgressUI(string fliesEaten)
     {
         progressValue.text = fliesEaten;
@@ -105,7 +108,6 @@ public class UIManager : MonoBehaviour
         progressCap.text = numberOfCollectables;
         return true;
     }
-
 
     public bool UpdateVisibilityUI(string visibility)
     {

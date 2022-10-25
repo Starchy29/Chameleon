@@ -28,15 +28,4 @@ public class FieldOfViewEditorScript : Editor
             Handles.DrawLine(fow.transform.position, visibleTarget.position);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    
-    }
 }

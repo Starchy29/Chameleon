@@ -333,11 +333,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263425, guid: 44f5ba3ae3e91b0439e17ed07772967f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.5659475
+      value: 6.02
       objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263425, guid: 44f5ba3ae3e91b0439e17ed07772967f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.6079788
+      value: 4.53
       objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263425, guid: 44f5ba3ae3e91b0439e17ed07772967f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1235,7 +1235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741056419}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7695427, y: -2.8001666, z: -10}
+  m_LocalPosition: {x: -0.05236864, y: -2.8676834, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1602,9 +1602,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca2efcf9bec65c44ada9947fdfc6ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 6
+  enemyMovement: 0
   viewAngle: 72
   fovRotation: 0
+  innerViewRadius: 5
+  outerViewRadius: 7
+  meshResolution: 10
+  edgeResolveIterations: 0
+  edgeDistanceThreshold: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 512
@@ -1612,15 +1617,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   visibleTargets: []
-  meshResolution: 10
-  edgeResolveIterations: 0
-  edgeDistanceThreshold: 0
   viewMeshFilter: {fileID: 977762796983323813}
   targetAquired: 0
   waypoints: []
   moveSpeed: 2
   waypointIndex: 0
-  enemyMovement: 0
 --- !u!61 &977762797438671978
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1914,6 +1915,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1771790236282100722, guid: a048be342f1aac444be5e7c965b6bb5c, type: 3}
+      propertyPath: m_Name
+      value: Visibility-Eye
+      objectReference: {fileID: 0}
+    - target: {fileID: 1771790236282100722, guid: a048be342f1aac444be5e7c965b6bb5c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3041481378800623170, guid: a048be342f1aac444be5e7c965b6bb5c, type: 3}
       propertyPath: m_Camera
       value: 

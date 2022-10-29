@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     private Image colorUIimage;
     private TextMeshProUGUI progressValue;
     private TextMeshProUGUI progressCap;
-    private TextMeshProUGUI visibilityValue;
-    private SpriteRenderer eyeSprite;
+    //private TextMeshProUGUI visibilityValue; // Visibility text
+    private SpriteRenderer visibilityEye;
     private TextMeshProUGUI objectiveLabel;
 
     /// <summary>
@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour
 
         }
         //visibilityValue = visibilityUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-        eyeSprite = visibilityUI.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
+        visibilityEye = visibilityUI.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
 
         // Objective UI
         GameObject objectiveUI = gameplayUI.transform.GetChild(4).gameObject;
@@ -137,7 +137,7 @@ public class UIManager : MonoBehaviour
     public bool UpdateVisibilityUI(Sprite eyeImage)
     {
         //visibilityValue.text = visibility;
-        eyeSprite.sprite = eyeImage;
+        visibilityEye.sprite = eyeImage;
         return true;
     }
     /// <summary>

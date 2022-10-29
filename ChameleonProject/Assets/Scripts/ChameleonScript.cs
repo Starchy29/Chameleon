@@ -13,6 +13,8 @@ public class ChameleonScript : MonoBehaviour
         Brown
     }
     //[SerializeField] private FieldOfView fieldOfView;
+    public Sprite openEye;
+    public Sprite closedEye;
 
     [SerializeField] private BodyColor startColor; // allows each level to start as a different color
     [SerializeField] private float Friction;
@@ -132,7 +134,8 @@ public class ChameleonScript : MonoBehaviour
             }
 
             // Updates Visibility UI
-            uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
+            //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
+            uiManager.UpdateVisibilityUI(Visible ? openEye : closedEye);
         }
 
         // tongue shot

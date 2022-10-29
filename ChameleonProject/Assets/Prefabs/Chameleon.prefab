@@ -222,6 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2546e989ccb39fb439b56211656e1119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openEye: {fileID: 21300000, guid: c772d3220fda73b4a972cbbc7b8112bb, type: 3}
+  closedEye: {fileID: 21300000, guid: 1086bcbd6a7e7fb41871603350b4f7b3, type: 3}
   startColor: 0
   Friction: 40
   Acceleration: 80

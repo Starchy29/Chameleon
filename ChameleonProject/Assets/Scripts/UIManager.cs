@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI progressValue;
     private TextMeshProUGUI progressCap;
     private TextMeshProUGUI visibilityValue;
+    private SpriteRenderer eyeSprite;
     private TextMeshProUGUI objectiveLabel;
 
     /// <summary>
@@ -73,7 +74,8 @@ public class UIManager : MonoBehaviour
             return false;
 
         }
-        visibilityValue = visibilityUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        //visibilityValue = visibilityUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        eyeSprite = visibilityUI.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>();
 
         // Objective UI
         GameObject objectiveUI = gameplayUI.transform.GetChild(4).gameObject;
@@ -130,11 +132,12 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Updates the visibility indicator of the player
     /// </summary>
-    /// <param name="visibility">Visibility of chameleon</param>
+    /// <param name="eyeImage">Sprite that represents if the player is visible or not</param>
     /// <returns>If the method succeeded</returns>
-    public bool UpdateVisibilityUI(string visibility)
+    public bool UpdateVisibilityUI(Sprite eyeImage)
     {
-        visibilityValue.text = visibility;
+        //visibilityValue.text = visibility;
+        eyeSprite.sprite = eyeImage;
         return true;
     }
     /// <summary>

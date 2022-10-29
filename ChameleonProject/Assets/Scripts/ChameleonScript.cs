@@ -144,7 +144,7 @@ public class ChameleonScript : MonoBehaviour
         switch (color)
         {
             case BodyColor.Blue:
-                GetComponent<SpriteRenderer>().color = Color.blue;
+                GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.5f, 1.0f);
                 break;
             case BodyColor.Green:
                 GetComponent<SpriteRenderer>().color = Color.green;

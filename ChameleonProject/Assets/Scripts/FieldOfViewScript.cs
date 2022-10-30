@@ -26,46 +26,13 @@ public class FieldOfViewScript : MonoBehaviour
         public Vector3 pointA;
         public Vector3 pointB;
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
-
-    public List<Transform> visibleTargets = new List<Transform>();
-
-    public float meshResolution;
-    public int edgeResolveIterations;
-    public float edgeDistanceThreshold;
-
-    public MeshFilter viewMeshFilter;
-    private Mesh viewMesh;
-
-    public bool targetAquired = false;
-
-    bool lookingRight = true;
-    bool lookingLeft = true;
-
-
-
-
-    //array of waypoints
-    [SerializeField]
-    private Transform[] waypoints;
-
-    //walk speed
-    [SerializeField]
-    private float moveSpeed = 2f;
-
-    [SerializeField]
-    private int waypointIndex = 0;
-
-    //enum for how the enemies move
-    [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
-
         public EdgeInfo(Vector3 _pointA, Vector3 _pointB)
         {
             pointA = _pointA;
             pointB = _pointB;
         }
     }
+
     public enum EnemyMovement // I would make a BirdMovement enum and SnakeMovement
     {
         FullSnakeRight,
@@ -365,43 +332,6 @@ public class FieldOfViewScript : MonoBehaviour
         transform.rotation = rotation;
     }
 
-
-    //detects any set targets
-    void FindVisibleTargets()
-    {
-        visibleTargets.Clear();
-
-        Collider2D[] targetsInViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), viewRadius, targetMask);
-
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
-        {
-            Transform target = targetsInViewRadius[i].transform;
-            Vector2 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle * .65)
-            {
-                float distToTarget = Vector3.Distance(transform.position, target.position);
-
-                if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
-                {
-                    visibleTargets.Add(target);
-
-                    // Check if chameleon is visable & if object is the chameleon
-                    ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
-                    if (chameleonScript != null)
-                    {
-                        if (chameleonScript.Visible)
-                        {
-                            targetAquired = true;
-                        }
-                        else { targetAquired = false; }
-                    }
-                    else { targetAquired = false; }
-                }
-            }
-        }
-    }
-
-    //draws the field of vision
     // -- Visuals -- //
     /// <summary>
     /// draws the field of vision

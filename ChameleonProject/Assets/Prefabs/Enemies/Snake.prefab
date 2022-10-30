@@ -369,7 +369,7 @@ MonoBehaviour:
   enemyMovement: 0
   viewAngle: 70
   fovRotation: 0
-  innerViewRadius: 1.5
+  innerViewRadius: 3
   outerViewRadius: 6
   meshResolution: 10
   edgeResolveIterations: 0
@@ -401,7 +401,7 @@ MonoBehaviour:
   enemyMovement: 0
   viewAngle: 70
   fovRotation: 0
-  innerViewRadius: 3
+  innerViewRadius: 6
   outerViewRadius: 6
   meshResolution: 10
   edgeResolveIterations: 0

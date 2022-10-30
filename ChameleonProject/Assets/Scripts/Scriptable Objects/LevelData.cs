@@ -65,6 +65,7 @@ public class LevelData : ScriptableObject
         CreateLevel(3); // Level 1 
         CreateLevel(3);
         CreateLevel(2);
+        CreateLevel(4);
         //Debug.Log("Init Levels");
 
         return levels[0];

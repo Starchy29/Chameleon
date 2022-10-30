@@ -42,23 +42,6 @@ public class GameManager : MonoBehaviour
         get { return ui; }
     }
 
-    public int FlyCount
-    {
-        get
-        {
-            return flyCount;
-        }
-    }
-    public int Level
-    {
-        get
-        {
-            return currentLevel.Number;
-        }
-    }
-    // TODO:
-    // Update color
-    // Update UI when enough flies are eaten
     public virtual void Awake()
     {
         // Singleton instantiation
@@ -186,6 +169,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("There are no more levels");
     }
 
+    /// <summary>
+    /// Triggers once scene is loaded
+    /// </summary>
+    /// <param name="scene">Scene that loaded</param>
+    /// <param name="mode">Mode of loading</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
     {
         // Get Scene UI

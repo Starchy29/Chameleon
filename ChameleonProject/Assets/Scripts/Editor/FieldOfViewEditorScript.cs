@@ -11,13 +11,13 @@ public class FieldOfViewEditorScript : Editor
     {
         FieldOfViewScript fow = (FieldOfViewScript)target;
         Handles.color = Color.white;
-        Handles.DrawWireArc(fow.transform.position, Vector3.forward, Vector3.right, 360, fow.viewRadius);
+        Handles.DrawWireArc(fow.transform.position, Vector3.forward, Vector3.right, 360, fow.innerViewRadius);
         //Handles.DrawWireArc(fow.transform.position, Vector3.forward, Vector3.right, 360, Mathf.Infinity);
         Vector3 viewAngleA = fow.DirFromAngle(-fow.viewAngle / 2, false);
         Vector3 viewAngleB = fow.DirFromAngle(fow.viewAngle / 2, false);
 
-        Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleA * fow.viewRadius);
-        Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleB * fow.viewRadius);
+        Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleA * fow.innerViewRadius);
+        Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleB * fow.innerViewRadius);
 
         //Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleA * Mathf.Infinity);
         //Handles.DrawLine(fow.transform.position, fow.transform.position + viewAngleB * Mathf.Infinity);

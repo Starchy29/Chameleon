@@ -6,12 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class FieldOfViewScript : MonoBehaviour
 {
-    public float viewRadius;
-    [Range(0, 360)]
-    public float viewAngle;
+    public struct ViewCastInfo
+    {
+        public bool hit;
+        public Vector3 point;
+        public float dst;
+        public float angle;
 
-    [Range(0, 360)]
-    public float fovRotation;
+        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
+        {
+            hit = _hit;
+            point = _point;
+            dst = _dst;
+            angle = _angle;
+        }
+    }
+    public struct EdgeInfo
+    {
+        public Vector3 pointA;
+        public Vector3 pointB;
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
@@ -47,6 +60,12 @@ public class FieldOfViewScript : MonoBehaviour
     //enum for how the enemies move
     [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight;
 
+        public EdgeInfo(Vector3 _pointA, Vector3 _pointB)
+        {
+            pointA = _pointA;
+            pointB = _pointB;
+        }
+    }
     public enum EnemyMovement // I would make a BirdMovement enum and SnakeMovement
     {
         FullSnakeRight,
@@ -59,8 +78,35 @@ public class FieldOfViewScript : MonoBehaviour
         FaceWest,
         BirdMovement
     }
+    
+    [SerializeField] public EnemyMovement enemyMovement = EnemyMovement.FullSnakeRight; //enum for how the enemies move
 
-    //// Start is called before the first frame update
+    [Range(0, 360)] public float viewAngle;     // How wide the field of view is
+    [Range(0, 360)] public float fovRotation;   // Current angle of rotation
+
+    public float innerViewRadius = 3;   // Player must stand still
+    public float outerViewRadius = 6;   // Player can move
+    public float meshResolution = 10;
+    public int edgeResolveIterations;
+    public float edgeDistanceThreshold;
+
+    public LayerMask targetMask;
+    public LayerMask obstacleMask;
+
+    public List<Transform> visibleTargets = new List<Transform>();
+
+    public MeshFilter viewMeshFilter;
+    private Mesh viewMesh;
+
+    public bool targetAquired = false;
+
+    private bool lookingRight = true;
+    private bool lookingLeft = true;
+
+    [SerializeField] private Transform[] waypoints; // Array of waypoints
+    [SerializeField] private float moveSpeed = 2f;  // Walk speed
+    [SerializeField] private int waypointIndex = 0; // Index of current waypoint 
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -72,19 +118,8 @@ public class FieldOfViewScript : MonoBehaviour
         {
             transform.position = waypoints[waypointIndex].transform.position;
         }
-  
     }
 
-    IEnumerator FindTargetsWithDelay(float delay)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            FindVisibleTargets();
-        }
-    }
-
-    // Update is called once per frame
     private void LateUpdate()
     {
         DrawFieldOfView();
@@ -124,14 +159,91 @@ public class FieldOfViewScript : MonoBehaviour
 
         }
 
-        // Reset scene
+        // Checks if target is aquired
         if (targetAquired)
         {
-            GameManager.Instance.RestartLevel();
+            // Instead of triggering reset it will trigger behavior change for enemy - attack
+            GameManager.Instance.RestartLevel(); // Reset scene
         }
     }
 
-    //movement for the bird
+    // -- Detection Methods -- //
+    IEnumerator FindTargetsWithDelay(float delay)
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(delay);
+            FindVisibleTargets();
+        }
+    }
+    //detects any set targets
+    void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+
+        Collider2D[] targetsInOuterViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), outerViewRadius, targetMask);
+        Collider2D[] targetsInInnerViewRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), innerViewRadius, targetMask); // can probably be calculated with outer objects
+
+        for (int i = 0; i < targetsInOuterViewRadius.Length; i++)
+        {
+            Transform target = targetsInOuterViewRadius[i].transform;
+            Vector2 dirToTarget = (target.position - transform.position).normalized;
+            
+            // What does this do? Gets angle to target?
+            //if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle / 2)
+            //{
+            //    float distToTarget = Vector3.Distance(transform.position, target.position);
+
+            //    if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+            //    {
+            //        visibleTargets.Add(target);
+
+            //        // Check if chameleon is visable & if object is the chameleon
+            //        ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
+            //        if (chameleonScript != null)
+            //        {
+            //            if (chameleonScript.Visible)
+            //            {
+            //                targetAquired = true;
+            //            }
+            //            else { targetAquired = false; }
+            //        }
+            //        else { targetAquired = false; }
+            //    }
+            //}
+        }
+        for (int i = 0; i < targetsInInnerViewRadius.Length; i++)
+        {
+            Transform target = targetsInInnerViewRadius[i].transform;
+            Vector2 dirToTarget = (target.position - transform.position).normalized;
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle / 2)
+            {
+                float distToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                {
+                    visibleTargets.Add(target);
+
+                    // Check if chameleon is visable & if object is the chameleon
+                    ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
+                    if (chameleonScript != null)
+                    {
+                        if (chameleonScript.Visible)
+                        {
+                            targetAquired = true;
+                        }
+                        else { targetAquired = false; }
+                    }
+                    else { targetAquired = false; }
+                }
+            }
+        }
+    }
+
+    // -- Bird Movements -- //
+    /// <summary>
+    /// Movement for the bird
+    /// </summary>
     private void BirdMovement()
     {
         if (waypointIndex < waypoints.Length)
@@ -168,7 +280,10 @@ public class FieldOfViewScript : MonoBehaviour
   
     }
 
-    //rotates the snake to the right in a 360 degree angle
+    // -- Snake Movements -- //
+    /// <summary>
+    /// Rotates the snake to the right in a 360 degree angle
+    /// </summary>
     private void FullSnakeRightMovement()
     {
         fovRotation += 0.2f;
@@ -181,7 +296,9 @@ public class FieldOfViewScript : MonoBehaviour
         transform.rotation = rotation;
     }
 
-    //rotates the snake to the left in a 360 degree angle
+    /// <summary>
+    /// rotates the snake to the left in a 360 degree angle
+    /// </summary>
     private void FullSnakeLeftMovement()
     {
         fovRotation -= 0.2f;
@@ -194,7 +311,9 @@ public class FieldOfViewScript : MonoBehaviour
         transform.rotation = rotation;
     }
 
-    //rotates the snake to the right in a 180 degree angle
+    /// <summary>
+    /// rotates the snake to the right in a 180 degree angle
+    /// </summary>
     private void HalfSnakeRightMovement()
     {
         if(lookingRight == true)
@@ -219,7 +338,9 @@ public class FieldOfViewScript : MonoBehaviour
         transform.rotation = rotation;
     }
 
-    //rotates the snake to the left in a 180 degree angle
+    /// <summary>
+    /// rotates the snake to the left in a 180 degree angle
+    /// </summary>
     private void HalfSnakeLeftMovement()
     {
         if (lookingLeft == true)
@@ -281,18 +402,22 @@ public class FieldOfViewScript : MonoBehaviour
     }
 
     //draws the field of vision
+    // -- Visuals -- //
+    /// <summary>
+    /// draws the field of vision
+    /// </summary>
     void DrawFieldOfView()
     {
         int rayCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / rayCount;
-        List<Vector3> viewPoints = new List<Vector3>();
 
+        List<Vector3> viewPoints = new List<Vector3>();
         ViewCastInfo oldViewCast = new ViewCastInfo();
 
         for (int i = 0; i < rayCount; i++)
         {
             float angle = fovRotation - viewAngle / 2 + stepAngleSize * i;
-            ViewCastInfo newViewCast = ViewCast(angle);
+            ViewCastInfo newViewCast = ViewInnerCast(angle);
 
             if (i > 0)
             {
@@ -313,7 +438,7 @@ public class FieldOfViewScript : MonoBehaviour
 
             viewPoints.Add(newViewCast.point);
             oldViewCast = newViewCast;
-            //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * viewRadius, Color.red);
+            //Debug.DrawLine(transform.position, transform.position + DirFromAngle(angle, true) * innerViewRadius, Color.red);
         }
 
         int vertexCount = viewPoints.Count + 1;
@@ -349,7 +474,7 @@ public class FieldOfViewScript : MonoBehaviour
         for (int i = 0; i < edgeResolveIterations; i++)
         {
             float angle = (minAngle + maxAngle) / 2;
-            ViewCastInfo newViewCast = ViewCast(angle);
+            ViewCastInfo newViewCast = ViewInnerCast(angle);
 
             bool edgeDstThresholdExceeded = Mathf.Abs(minViewCast.dst - newViewCast.dst) > edgeDistanceThreshold;
 
@@ -368,12 +493,12 @@ public class FieldOfViewScript : MonoBehaviour
         return new EdgeInfo(minPoint, maxPoint);
     }
 
-    ViewCastInfo ViewCast(float globalAngle)
+    ViewCastInfo ViewInnerCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
         RaycastHit2D hit;
 
-        hit = Physics2D.Raycast(transform.position, dir, viewRadius, obstacleMask);
+        hit = Physics2D.Raycast(transform.position, dir, innerViewRadius, obstacleMask);
 
         if (hit.collider != null)
         {
@@ -381,7 +506,23 @@ public class FieldOfViewScript : MonoBehaviour
         }
         else
         {
-            return new ViewCastInfo(false, transform.position + dir * viewRadius, viewRadius, globalAngle);
+            return new ViewCastInfo(false, transform.position + dir * innerViewRadius, innerViewRadius, globalAngle);
+        }
+    }
+    ViewCastInfo ViewOuterCast(float globalAngle)
+    {
+        Vector3 dir = DirFromAngle(globalAngle, true);
+        RaycastHit2D hit;
+
+        hit = Physics2D.Raycast(transform.position, dir, outerViewRadius, obstacleMask);
+
+        if (hit.collider != null)
+        {
+            return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
+        }
+        else
+        {
+            return new ViewCastInfo(false, transform.position + dir * outerViewRadius, outerViewRadius, globalAngle);
         }
     }
 
@@ -394,33 +535,5 @@ public class FieldOfViewScript : MonoBehaviour
         }
         //return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
-    }
-
-    public struct ViewCastInfo
-    {
-        public bool hit;
-        public Vector3 point;
-        public float dst;
-        public float angle;
-
-        public ViewCastInfo(bool _hit, Vector3 _point, float _dst, float _angle)
-        {
-            hit = _hit;
-            point = _point;
-            dst = _dst;
-            angle = _angle;
-        }
-    }
-
-    public struct EdgeInfo
-    {
-        public Vector3 pointA;
-        public Vector3 pointB;
-
-        public EdgeInfo(Vector3 _pointA, Vector3 _pointB)
-        {
-            pointA = _pointA;
-            pointB = _pointB;
-        }
     }
 }

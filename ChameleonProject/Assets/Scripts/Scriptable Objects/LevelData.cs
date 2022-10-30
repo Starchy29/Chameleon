@@ -43,6 +43,7 @@ public class Level
 public class LevelData : ScriptableObject
 {
     private List<Level> levels;
+    private int levelCount = 0;
 
     //-----Public Accessors-----//
     public List<Level> Levels
@@ -58,15 +59,21 @@ public class LevelData : ScriptableObject
     /// Creates levels with data and returns first level
     /// </summary>
     /// <returns>First level</returns>
-    public Level Init()
+    public Level InitLevels()
     {
         levels = new List<Level>();
-        CreateLevel(1, 3);
-        CreateLevel(2, 2);
-        CreateLevel(3, 2);
-        Debug.Log("Init Levels");
+        CreateLevel(3); // Level 1 
+        CreateLevel(3);
+        CreateLevel(2);
+        CreateLevel(4);
+        //Debug.Log("Init Levels");
 
         return levels[0];
+    }
+
+    public LevelData()
+    {
+        InitLevels();
     }
 
     /// <summary>
@@ -74,9 +81,9 @@ public class LevelData : ScriptableObject
     /// </summary>
     /// <param name="number">Level number</param>
     /// <param name="maxFlies">Number of flies in level</param>
-    private void CreateLevel(int number, int maxFlies)
+    private void CreateLevel(int maxFlies)
     {
-        Level level = new Level(number, maxFlies);
+        Level level = new Level(++levelCount, maxFlies);
         levels.Add(level);
     }
 }

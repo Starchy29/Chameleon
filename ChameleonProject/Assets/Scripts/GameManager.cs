@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private Level currentLevel;
     private GameState state;
     private static GameManager instance;
+    private static UIManager ui;
 
     public static GameManager Instance
     {
@@ -30,24 +31,15 @@ public class GameManager : MonoBehaviour
                     GameObject obj = new GameObject();
                     obj.name = typeof(GameManager).Name;
                     instance = obj.AddComponent<GameManager>();
+                    ui = obj.AddComponent<UIManager>();
                 }
             }
             return instance;
         }
     }
-    public int FlyCount
+    public static UIManager UI
     {
-        get
-        {
-            return flyCount;
-        }
-    }
-    public int Level
-    {
-        get
-        {
-            return currentLevel.Number;
-        }
+        get { return ui; }
     }
 
     public virtual void Awake()
@@ -63,14 +55,15 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // why does it need to be destroyed of contains instance
         }
 
+        // Init LevelData
         levelData = new LevelData();
-        levelData.Init(); // inits and can fill with first level
+        //Debug.Log("Init Level Data");
 
-        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene());
-        Debug.Log("Level " + currentLevel.Number);
-
-        state = GameState.PLAY;
+        // Init UI
+        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene()); // Get current level
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     private void Update()
     {
         switch (state)
@@ -102,31 +95,40 @@ public class GameManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Updates manager fly count
+    /// Updates manager fly count. Could be moved to player class
     /// </summary>
     /// <param name="playerFlyCount">number of flies eaten in the current level</param>
     public void UpdateFlyCount(int playerFlyCount)
     {
         flyCount = playerFlyCount;
-        Debug.Log("FlyCount: " + flyCount);
+        ui.UpdateProgressUI(flyCount.ToString());
+        //Debug.Log("FlyCount: " + flyCount);
+
+        // Checks if enough flies are eaten to go to next level
+        if (flyCount >= currentLevel.MaxFlies)
+        {
+            ui.UpdateObjectiveUI("You have enough Flies!\nGet to your tree");
+        }
     }
 
     /// <summary>
     /// Checks if player can win
     /// </summary>
     /// <returns>If player can win - bool</returns>
-    public void AteEnoughFlies()
+    public void CheckWin()
     {
         // Should be a player method
-        Debug.Log("Check finish");
+        //Debug.Log("Check finish");
         if (flyCount >= currentLevel.MaxFlies)
         {
-            Debug.Log("You have enough Flies!");
+            //Debug.Log("You have enough Flies!");
+            ui.UpdateObjectiveUI("You have enough Flies!\nGet to your tree");
             NextScene();
             return;
         }
 
-        Debug.Log("Did not eat enough flies");
+        ui.UpdateObjectiveUI("Eat more flies!");
+        //Debug.Log("Did not eat enough flies");
     }
 
     /// <summary>
@@ -137,7 +139,7 @@ public class GameManager : MonoBehaviour
         // check if there are more levels
         if(currentLevel.Number < levelData.Levels.Count)
         {
-            Debug.Log("Next Level!");
+            //Debug.Log("Next Level!");
             ResetVariables();
 
             // Jank - updating current level depends on scene while scene (start method) depends on current level
@@ -146,26 +148,57 @@ public class GameManager : MonoBehaviour
 
             int nextLevelIndex = (currentLevel.Number - 1) + 1; // +-1 makes sense relative to index
             currentLevel = levelData.Levels[nextLevelIndex];
-
             //Scene nextScene = SceneManager.GetSceneByBuildIndex(SceneManager.GetActiveScene().buildIndex + 1); // Gets next scene
             //currentLevel = GetLevelFromScene(nextScene); // get new level
 
             // Load Scene - level# needs to be updated
             //SceneManager.LoadScene(nextScene.buildIndex); // This gets the next scene in the build index
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // This gets the next scene in the build index
-
-            Debug.Log("Level " + currentLevel.Number);
             //currentLevel = levelData.Levels[currentLevel.Number]; // gets next level
             //SceneManager.LoadScene(currentLevel.Number); // Could use current level if sync'd up
+
             return;
         }
         else
         {
             state = GameState.WIN;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.LoadScene(0); // This gets the next scene in the build index
             Destroy(gameObject);
         }
         Debug.Log("There are no more levels");
+    }
+
+    /// <summary>
+    /// Triggers once scene is loaded
+    /// </summary>
+    /// <param name="scene">Scene that loaded</param>
+    /// <param name="mode">Mode of loading</param>
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
+    {
+        // Get Scene UI
+        if (!ui.GetSceneUI())
+        {
+            Debug.LogError("GetSceneUI Failed");
+            return;
+        }
+
+        //Debug.Log("Init Level " + currentLevel.Number);
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        //Debug.Log(mode);
+
+        // Update Scene UI
+        ui.UpdateLevelUI(currentLevel.Number.ToString());
+        ui.UpdateColorUI(Color.green);
+        ui.UpdateProgressUI(flyCount.ToString());
+        ui.UpdateProgressCapUI(currentLevel.MaxFlies.ToString());
+        //ui.UpdateVisibilityUI();
+        ui.UpdateObjectiveUI("Eat flies");
+        //Debug.Log("Init UI"); // Debug
+
+        // Init GameState
+        state = GameState.PLAY;
+        //Debug.Log("Init Game State"); // Debug
     }
 
     /// <summary>

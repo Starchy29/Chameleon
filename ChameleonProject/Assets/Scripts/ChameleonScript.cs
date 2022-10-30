@@ -13,6 +13,8 @@ public class ChameleonScript : MonoBehaviour
         Brown
     }
     //[SerializeField] private FieldOfView fieldOfView;
+    public Sprite openEye;
+    public Sprite closedEye;
 
     [SerializeField] private BodyColor startColor; // allows each level to start as a different color
     [SerializeField] private float Friction;
@@ -34,19 +36,20 @@ public class ChameleonScript : MonoBehaviour
     public bool Visible { get { return !onMatchingTile && !inBush; } }
 
     private GameManager manager;
+    private UIManager uiManager;
     private int localFlyCount = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         manager = GameManager.Instance;
+        uiManager = manager.GetComponent<UIManager>();
         body = GetComponent<Rigidbody2D>();
         //GameObject tempGrid = GameObject.Find("Grid-" + manager.Level);
         try
         {
             GameObject tempGrid = GameObject.Find("Grid"); // Grid needs to be labeled "Grid"
             tiles = tempGrid.transform.GetChild(2).gameObject.GetComponent<Tilemap>(); // Base layer is 2 // used to identify tile
-            Debug.Log("Init Chameleon");
+            //Debug.Log("Init Chameleon");
         }
         catch
         {
@@ -129,6 +132,10 @@ public class ChameleonScript : MonoBehaviour
                     }
                     break;
             }
+
+            // Updates Visibility UI
+            //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
+            uiManager.UpdateVisibilityUI(Visible ? openEye : closedEye);
         }
 
         // tongue shot
@@ -141,21 +148,27 @@ public class ChameleonScript : MonoBehaviour
     private void SetColor(BodyColor color)
     {
         this.color = color;
+        Color newColor = Color.white;
         switch (color)
         {
             case BodyColor.Blue:
                 GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.5f, 1.0f);
+                // newColor = Color.blue;
                 break;
             case BodyColor.Green:
-                GetComponent<SpriteRenderer>().color = Color.green;
+                newColor = Color.green;
                 break;
             case BodyColor.Red:
-                GetComponent<SpriteRenderer>().color = Color.red;
+                newColor = Color.red;
                 break;
             case BodyColor.Brown:
-                GetComponent<SpriteRenderer>().color = new Color(0.5f, 0.1f, 0.1f);
+                newColor = new Color(0.5f, 0.1f, 0.1f);
                 break;
         }
+        GetComponent<SpriteRenderer>().color = newColor;
+
+        // Update UI
+        uiManager.UpdateColorUI(newColor);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

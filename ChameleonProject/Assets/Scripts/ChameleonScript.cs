@@ -241,7 +241,8 @@ public class ChameleonScript : MonoBehaviour
 
     private void EatFly()
     {
-        localFlyCount++;
-        manager.UpdateFlyCount(localFlyCount);
+        //localFlyCount++;
+        //manager.UpdateFlyCount(localFlyCount);
+        manager.EatFly();
     }
 }

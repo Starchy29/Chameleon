@@ -12,8 +12,9 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI progressValue;
     private TextMeshProUGUI progressCap;
     //private TextMeshProUGUI visibilityValue; // Visibility text
-    private SpriteRenderer visibilityEye;
+    private SpriteRenderer visibilityEye; 
     private TextMeshProUGUI objectiveLabel;
+    private TextMeshProUGUI timerValue;
 
     /// <summary>
     /// Get UI objects of current scene
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
             return false;
         }
 
-        // Gameplay UI (parent)
+        // - Gameplay UI (parent)
         GameObject gameplayUI = gui.transform.GetChild(0).gameObject;
         if (gameplayUI == null)
         {
@@ -36,7 +37,7 @@ public class UIManager : MonoBehaviour
             return false;
         }
 
-        // Level UI
+        // -- Level UI
         GameObject levelUI = gameplayUI.transform.GetChild(0).gameObject;
         if (levelUI == null)
         {
@@ -45,7 +46,7 @@ public class UIManager : MonoBehaviour
         }
         levelValue = levelUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
 
-        // Color UI
+        // -- Color UI
         GameObject colorUI = gameplayUI.transform.GetChild(1).gameObject;
         if (colorUI == null)
         {
@@ -86,8 +87,36 @@ public class UIManager : MonoBehaviour
 
         }
         objectiveLabel = objectiveUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+
+        GetSceneAchievementUI(gui);
         return true;
     }
+
+    public bool GetSceneAchievementUI(GameObject gui)
+    {
+        GameObject achievementUI = gui.transform.GetChild(2).gameObject;
+        if (achievementUI == null)
+        {
+            Debug.LogError("Missing \"AchievementUI\" Object");
+            return false;
+        }
+
+        // -- Level UI
+        GameObject timerUI = achievementUI.transform.GetChild(0).gameObject;
+        if (timerUI == null)
+        {
+            Debug.LogError("Missing \"LevelUI\" Object");
+            return false;
+        }
+        timerValue = timerUI.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        return true;
+    }
+    public bool UpdateTimerUI(string time)
+    {
+        timerValue.text = time;
+        return true;
+    }
+
     /// <summary>
     /// Updates the level number
     /// </summary>

@@ -37,7 +37,6 @@ public class ChameleonScript : MonoBehaviour
 
     private GameManager manager;
     private UIManager uiManager;
-    private int localFlyCount = 0;
 
     void Start()
     {
@@ -48,7 +47,7 @@ public class ChameleonScript : MonoBehaviour
         try
         {
             GameObject tempGrid = GameObject.Find("Grid"); // Grid needs to be labeled "Grid"
-            tiles = tempGrid.transform.GetChild(2).gameObject.GetComponent<Tilemap>(); // Base layer is 2 // used to identify tile
+            tiles = tempGrid.transform.GetChild(1).gameObject.GetComponent<Tilemap>(); // Base layer is 2 // used to identify tile
             //Debug.Log("Init Chameleon");
         }
         catch

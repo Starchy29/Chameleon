@@ -319,6 +319,6 @@ public class PlayerData : ScriptableObject
     }
     public void Print(int number)
     {
-        Debug.Log("Level "+number+"\nTime: " + timestamp + " | Flies Eaten: " + flies + " | Deaths: " + deaths);
+        Debug.Log("Level "+number+"\nTime: " + timestamp + " | Flies Eaten: " + flies + " | Deaths: " + deaths + " | Stars: " + Stars);
     }
 }

@@ -87,7 +87,7 @@ public class FieldOfViewScript : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         DrawFieldOfView();
 
@@ -183,7 +183,7 @@ public class FieldOfViewScript : MonoBehaviour
         {
             Transform target = targetsInInnerViewRadius[i].transform;
             Vector2 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle * .65)
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle /2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 

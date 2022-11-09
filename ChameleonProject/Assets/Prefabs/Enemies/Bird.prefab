@@ -267,9 +267,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMovement: 8
-  viewAngle: 70
+  viewAngle: 360
   fovRotation: 0
-  innerViewRadius: 3
+  innerViewRadius: 2
   outerViewRadius: 6
   meshResolution: 10
   edgeResolveIterations: 0

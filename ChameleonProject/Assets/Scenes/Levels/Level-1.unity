@@ -1322,6 +1322,10 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.196
       objectReference: {fileID: 0}
+    - target: {fileID: 5150093692193131401, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_Volume
+      value: 0.911
+      objectReference: {fileID: 0}
     - target: {fileID: 6724434461175263423, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_Name
       value: Chameleon
@@ -1369,6 +1373,18 @@ PrefabInstance:
     - target: {fileID: 6724434461175263425, guid: 033587b82a565c94082ece42287f7eba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009950413025995744, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009950413025995744, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9009950413025995744, guid: 033587b82a565c94082ece42287f7eba, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 033587b82a565c94082ece42287f7eba, type: 3}
@@ -1536,11 +1552,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.7702956
+      value: -0.7747226
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8001723
+      value: -2.8002086
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.z

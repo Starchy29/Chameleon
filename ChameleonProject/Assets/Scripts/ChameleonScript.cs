@@ -156,13 +156,51 @@ public class ChameleonScript : MonoBehaviour
                     if(isMoving == true)
                     {
                         soundManager.PlayGrassFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
                     }
                     break;
                 case "Shallow Water Tile":
-                    //if(isMoving == true)
-                    //{
-                    //    soundManager.PlayEatingSound();
-                    //}
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayWaterFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+                case "Wall Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayRockFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+                case "Clay Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayClayFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopDirtFootstep();
+                    }
+                    break;
+                case "Dirt Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayDirtFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopClayFootstep();
+                    }
                     break;
             }
 

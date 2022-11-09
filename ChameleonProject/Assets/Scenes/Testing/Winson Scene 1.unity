@@ -53515,7 +53515,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}
       propertyPath: innerViewRadius
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}
       propertyPath: targetMask.m_Bits
@@ -53604,6 +53604,14 @@ PrefabInstance:
     - target: {fileID: 6831849664694830662, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831849664694830662, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}
+      propertyPath: viewAngle
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 6831849664694830662, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}
+      propertyPath: innerViewRadius
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48783f58f5f98264d83c13bbc2e70d30, type: 3}

@@ -223,7 +223,7 @@ public class FieldOfViewScript : MonoBehaviour
                 , moveSpeed * Time.deltaTime);
 
             // Changes waypoints after getting within a certain distance
-            if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 3)
+            if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 0.5f)
             {
                 waypointIndex += 1;
                 if (waypointIndex == waypoints.Length)

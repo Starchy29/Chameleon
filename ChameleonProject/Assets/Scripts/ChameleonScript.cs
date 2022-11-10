@@ -203,7 +203,7 @@ public class ChameleonScript : MonoBehaviour
                     break;
             }
 
-            Debug.Log(currentTile);
+            //Debug.Log(currentTile);
 
             // Updates Visibility UI
             //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());

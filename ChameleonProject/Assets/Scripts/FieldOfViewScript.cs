@@ -57,8 +57,8 @@ public class FieldOfViewScript : MonoBehaviour
     public int edgeResolveIterations;
     public float edgeDistanceThreshold;
 
-    public LayerMask targetMask;
-    public LayerMask obstacleMask;
+    public LayerMask targetMask; // Targets in the cone vision
+    public LayerMask obstacleMask; //Objects that block the cone vision
 
     public List<Transform> visibleTargets = new List<Transform>();
 
@@ -91,9 +91,7 @@ public class FieldOfViewScript : MonoBehaviour
     {
         DrawFieldOfView();
 
-        //FullSnakeRightMovement();
-
-        //moves the enemy and cone of vision depending on the enum
+        // Moves the enemy and cone of vision depending on the enum
         switch(enemyMovement)
         {
             case EnemyMovement.FullSnakeRight:
@@ -123,7 +121,6 @@ public class FieldOfViewScript : MonoBehaviour
             case EnemyMovement.BirdMovement:
                 BirdMovement();
                 break;
-
         }
 
         // Checks if target is aquired
@@ -143,7 +140,7 @@ public class FieldOfViewScript : MonoBehaviour
             FindVisibleTargets();
         }
     }
-    //detects any set targets
+    // Detects any set targets
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
@@ -179,12 +176,19 @@ public class FieldOfViewScript : MonoBehaviour
             //    }
             //}
         }
+
+        //For any targets within the radius
         for (int i = 0; i < targetsInInnerViewRadius.Length; i++)
         {
             Transform target = targetsInInnerViewRadius[i].transform;
+
+            // Direction to Target
             Vector2 dirToTarget = (target.position - transform.position).normalized;
+
+            // Checks the SIDES of the vision cone
             if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle /2)
             {
+                // Distance between enemy and target
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
                 if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
@@ -218,7 +222,7 @@ public class FieldOfViewScript : MonoBehaviour
             transform.position = Vector2.MoveTowards(transform.position, waypoints[waypointIndex].transform.position
                 , moveSpeed * Time.deltaTime);
 
-            //changes waypoints after getting within a certain distance
+            // Changes waypoints after getting within a certain distance
             if (Vector3.Distance(transform.position, waypoints[waypointIndex].transform.position) < 3)
             {
                 waypointIndex += 1;
@@ -228,14 +232,14 @@ public class FieldOfViewScript : MonoBehaviour
                 }
             }
 
-            //rotate upon reaching a new waypoint
+            // Rotate upon reaching a new waypoint
             Vector3 targetinVec3 = new Vector3(waypoints[waypointIndex].transform.position.x,
                 waypoints[waypointIndex].transform.position.y, 0f);
 
             Vector3 direction2 = targetinVec3 - transform.position;
             float angle = Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg - 90;
 
-            //rotates the bird to look at the next waypoint
+            // Rotates the bird to look at the next waypoint
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, direction2);
             transform.rotation = rotation;
 
@@ -333,7 +337,7 @@ public class FieldOfViewScript : MonoBehaviour
 
     // -- Visuals -- //
     /// <summary>
-    /// draws the field of vision
+    /// Draws the field of vision
     /// </summary>
     void DrawFieldOfView()
     {
@@ -438,6 +442,7 @@ public class FieldOfViewScript : MonoBehaviour
             return new ViewCastInfo(false, transform.position + dir * innerViewRadius, innerViewRadius, globalAngle);
         }
     }
+
     ViewCastInfo ViewOuterCast(float globalAngle)
     {
         Vector3 dir = DirFromAngle(globalAngle, true);
@@ -457,12 +462,11 @@ public class FieldOfViewScript : MonoBehaviour
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {
-        //converts angle to global
+        // Converts angle to global
         if (!angleIsGlobal)
         {
             angleInDegrees += fovRotation;
         }
-        //return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad), 0);
     }
 }

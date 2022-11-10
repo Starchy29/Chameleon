@@ -114,7 +114,6 @@ GameObject:
   - component: {fileID: 977762797275472679}
   - component: {fileID: 977762797275472678}
   - component: {fileID: 977762797275472677}
-  - component: {fileID: 977762797275472676}
   - component: {fileID: 3112332315199605715}
   m_Layer: 11
   m_Name: Bird
@@ -267,9 +266,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyMovement: 8
-  viewAngle: 70
+  viewAngle: 360
   fovRotation: 0
-  innerViewRadius: 3
+  innerViewRadius: 2
   outerViewRadius: 6
   meshResolution: 10
   edgeResolveIterations: 0
@@ -286,18 +285,6 @@ MonoBehaviour:
   waypoints: []
   moveSpeed: 1
   waypointIndex: 0
---- !u!114 &977762797275472676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977762797275472675}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e052403a1a76514f85cf03ef9f021f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3112332315199605715
 MonoBehaviour:
   m_ObjectHideFlags: 0

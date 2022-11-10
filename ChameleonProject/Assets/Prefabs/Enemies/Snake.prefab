@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3856675478047932663
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ MonoBehaviour:
   enemyMovement: 0
   viewAngle: 70
   fovRotation: 0
-  innerViewRadius: 3
+  innerViewRadius: 4
   outerViewRadius: 6
   meshResolution: 10
   edgeResolveIterations: 0
@@ -393,7 +393,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977762797275472675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ca2efcf9bec65c44ada9947fdfc6ba1, type: 3}
   m_Name: 

@@ -87,7 +87,7 @@ public class FieldOfViewScript : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         DrawFieldOfView();
 
@@ -183,7 +183,7 @@ public class FieldOfViewScript : MonoBehaviour
         {
             Transform target = targetsInInnerViewRadius[i].transform;
             Vector2 dirToTarget = (target.position - transform.position).normalized;
-            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle * .65)
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle /2)
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
@@ -234,17 +234,16 @@ public class FieldOfViewScript : MonoBehaviour
 
             Vector3 direction2 = targetinVec3 - transform.position;
             float angle = Mathf.Atan2(direction2.y, direction2.x) * Mathf.Rad2Deg - 90;
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-           // transform.rotation = rotation;
+            //rotates the bird to look at the next waypoint
+            Quaternion rotation = Quaternion.LookRotation(Vector3.forward, direction2);
+            transform.rotation = rotation;
 
             //transform.position = Vector3.MoveTowards(transform.position, waypoints[waypointIndex].transform.position,
             //    moveSpeed * Time.deltaTime);
 
             fovRotation = angle;
         }
-
-  
     }
 
     // -- Snake Movements -- //

@@ -39,6 +39,11 @@ public class ChameleonScript : MonoBehaviour
     private UIManager uiManager;
     private int localFlyCount = 0;
 
+    private SoundManager soundManager;
+    Tile currentTile;
+
+    private bool isMoving = false;
+
     void Start()
     {
         manager = GameManager.Instance;
@@ -57,6 +62,8 @@ public class ChameleonScript : MonoBehaviour
         }
 
         SetColor(startColor);
+
+        soundManager = GetComponent<SoundManager>();
     }
 
     // FixedUpdate helps with the wall jitteriness
@@ -89,6 +96,15 @@ public class ChameleonScript : MonoBehaviour
                 body.velocity = body.velocity.normalized;
                 body.velocity *= MaxSpeed;
             }
+
+            isMoving = true;
+        }
+
+        //stops footstep sounds if not moving
+        if(movement == Vector2.zero)
+        {
+            soundManager.StopFootsteps();
+            isMoving = false;
         }
 
         // rigidbody translates using velocity on its own
@@ -102,7 +118,7 @@ public class ChameleonScript : MonoBehaviour
 
         // check visibility from tile
         onMatchingTile = false; // visible until proven hidden
-        Tile currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
+        currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
         if (currentTile)
         {
             switch (color)
@@ -132,6 +148,63 @@ public class ChameleonScript : MonoBehaviour
                     }
                     break;
             }
+
+            //plays a footstep sound based on the current tile
+            switch(currentTile.name)
+            {
+                case "Grass Tile":
+                    if(isMoving == true)
+                    {
+                        soundManager.PlayGrassFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+                case "Shallow Water Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayWaterFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+                case "Wall Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayRockFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopDirtFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+                case "Clay Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayClayFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopDirtFootstep();
+                    }
+                    break;
+                case "Dirt Tile":
+                    if (isMoving == true)
+                    {
+                        soundManager.PlayDirtFootstep();
+                        soundManager.StopGrassFootstep();
+                        soundManager.StopRockFootstep();
+                        soundManager.StopWaterFootstep();
+                        soundManager.StopClayFootstep();
+                    }
+                    break;
+            }
+
+            Debug.Log(currentTile);
 
             // Updates Visibility UI
             //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
@@ -177,11 +250,13 @@ public class ChameleonScript : MonoBehaviour
         {
             SetColor(collision.gameObject.GetComponent<BushScript>().color);
             inBush = true;
+            soundManager.PlayBushSound();
         }
         else if (collision.gameObject.tag == "Fly")
         {
             EatFly();
             Destroy(collision.gameObject);
+            soundManager.PlayEatingSound();
         }
 
         else if (collision.gameObject.tag == "Enemy Vision")

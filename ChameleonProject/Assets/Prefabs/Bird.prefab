@@ -115,6 +115,7 @@ GameObject:
   - component: {fileID: 977762797275472678}
   - component: {fileID: 977762797275472677}
   - component: {fileID: 977762797275472676}
+  - component: {fileID: 3112332315199605715}
   m_Layer: 11
   m_Name: Bird
   m_TagString: Bird
@@ -179,8 +180,8 @@ SpriteRenderer:
   m_SortingLayerID: 1392916433
   m_SortingLayer: 1
   m_SortingOrder: 5
-  m_Sprite: {fileID: 21300000, guid: e7876fa8354822c488e52587159f7800, type: 3}
-  m_Color: {r: 0.4933504, g: 0.8113208, b: 0.4240299, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7dfdff160db22144ca3e2c470032d2df, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -244,7 +245,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.26, y: 0.99}
+    oldSize: {x: 2.5, y: 2.5}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -265,9 +266,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca2efcf9bec65c44ada9947fdfc6ba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 4
+  enemyMovement: 8
   viewAngle: 70
   fovRotation: 0
+  innerViewRadius: 3
+  outerViewRadius: 6
+  meshResolution: 10
+  edgeResolveIterations: 0
+  edgeDistanceThreshold: 0
   targetMask:
     serializedVersion: 2
     m_Bits: 512
@@ -275,15 +281,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   visibleTargets: []
-  meshResolution: 10
-  edgeResolveIterations: 0
-  edgeDistanceThreshold: 0
   viewMeshFilter: {fileID: 977762796585776105}
   targetAquired: 0
   waypoints: []
   moveSpeed: 1
   waypointIndex: 0
-  enemyMovement: 8
 --- !u!114 &977762797275472676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,3 +298,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e052403a1a76514f85cf03ef9f021f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3112332315199605715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977762797275472675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d63bd276ca72b84c9654671094dd1b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 21300000, guid: 7dfdff160db22144ca3e2c470032d2df, type: 3}
+  - {fileID: 21300000, guid: 02e264846bdeccd4c9a18cdad30d90a3, type: 3}
+  - {fileID: 21300000, guid: c6aa014644d46b24eb450f96f6aa513e, type: 3}
+  - {fileID: 21300000, guid: 02e264846bdeccd4c9a18cdad30d90a3, type: 3}
+  frameRate: 0.1

@@ -97,7 +97,17 @@ public class GameManager : MonoBehaviour
         if (sceneNameArray.Length >= 1)
         {
             int levelNumber = int.Parse(sceneNameArray[1]);
-            return levelManager.Levels[levelNumber - 1];
+            Level level = null;
+            try
+            {
+                level = levelManager.Levels[levelNumber - 1];
+            }
+            catch
+            {
+                Debug.Log("Need to create a level in LevelManager");
+            }
+
+            return level;
         }
         return null;
     }

@@ -209,12 +209,6 @@ public class ChameleonScript : MonoBehaviour
             //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
             uiManager.UpdateVisibilityUI(Visible ? openEye : closedEye);
         }
-
-        // tongue shot
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0))
-        {
-
-        }
     }
 
     private void SetColor(BodyColor color)

@@ -36,8 +36,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6724434461175263423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8409, y: 0.8409, z: 0.8409}
+  m_LocalPosition: {x: -0.1695, y: -0.1695, z: 0}
+  m_LocalScale: {x: 0.6374863, y: 0.6374863, z: 0.6374863}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -166,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed976ff79180fd94593cf2fc191590db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grassFootstepSound: {fileID: 0}
 --- !u!82 &145099473287158470
 AudioSource:
   m_ObjectHideFlags: 0

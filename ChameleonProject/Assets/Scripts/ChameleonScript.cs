@@ -102,7 +102,7 @@ public class ChameleonScript : MonoBehaviour
         //stops footstep sounds if not moving
         if(movement == Vector2.zero)
         {
-            soundManager.StopFootsteps();
+            soundManager.InvokeAudio();
             isMoving = false;
         }
 

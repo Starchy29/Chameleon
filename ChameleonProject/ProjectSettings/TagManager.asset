@@ -11,6 +11,7 @@ TagManager:
   - Bird
   - Waypoints
   - Enemy Vision
+  - BGM
   layers:
   - Default
   - TransparentFX

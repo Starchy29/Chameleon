@@ -10,7 +10,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource bushSound;
 
     //footsteps
-    private AudioSource grassFootstepSound;
+    public AudioSource grassFootstepSound;
     private AudioSource waterFootstepSound;
     private AudioSource rockFootstepSound;
     private AudioSource dirtFootstepSound;
@@ -103,5 +103,10 @@ public class SoundManager : MonoBehaviour
         rockFootstepSound.enabled = false;
         dirtFootstepSound.enabled = false;
         clayFootstepSound.enabled = false;
+    }
+
+    public void InvokeAudio()
+    {
+        Invoke("StopFootsteps", grassFootstepSound.clip.length / 2);
     }
 }

@@ -68,6 +68,10 @@ public class ChameleonScript : MonoBehaviour
     // FixedUpdate helps with the wall jitteriness
     void FixedUpdate()
     {
+        if(GameManager.Instance.IsLevelOver) {
+            return; // prevent interactions after dying
+        }
+
         // move
         if (body.velocity != Vector2.zero)
         {
@@ -203,17 +207,8 @@ public class ChameleonScript : MonoBehaviour
                     break;
             }
 
-            //Debug.Log(currentTile);
-
             // Updates Visibility UI
-            //uiManager.UpdateVisibilityUI((!onMatchingTile).ToString());
             uiManager.UpdateVisibilityUI(Visible ? openEye : closedEye);
-        }
-
-        // tongue shot
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Joystick1Button0))
-        {
-
         }
     }
 
@@ -245,6 +240,10 @@ public class ChameleonScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        if(GameManager.Instance.IsLevelOver) {
+            return; // prevent interactions after dying
+        }
+
         if (collision.gameObject.tag == "Bush")
         {
             SetColor(collision.gameObject.GetComponent<BushScript>().color);

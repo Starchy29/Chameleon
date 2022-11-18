@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     private float timerSeconds;
     private int timerMinutes;
     private PlayerData playerData;
+    private float deathLinger = 0; // timer to track how long the linger after dying has lasted
+    private const float LINGER_DURATION = 1.0f; // number of seconds to wait after dying before resetting
+
+    public bool IsLevelOver { get { return deathLinger > 0; } } // track if level is lost but not restarted yet
 
     public static GameManager Instance
     {
@@ -73,10 +77,21 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.PLAY:
-                gameTimer += Time.deltaTime;
-                timerSeconds = gameTimer % 60;
-                timerMinutes = (int)gameTimer / 60;
-                ui.UpdateTimerUI(timerMinutes.ToString()+":"+timerSeconds.ToString("f2"));
+                // pause for a moment after death
+                if(deathLinger > 0) {
+                    deathLinger -= Time.deltaTime;
+                    if(deathLinger <= 0) {
+                        // restart scene
+                        deathLinger = 0;
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    }
+                } else {
+                    // normal update during game
+                    gameTimer += Time.deltaTime;
+                    timerSeconds = gameTimer % 60;
+                    timerMinutes = (int)gameTimer / 60;
+                    ui.UpdateTimerUI(timerMinutes.ToString()+":"+timerSeconds.ToString("f2"));
+                }
                 break;
             case GameState.PAUSE:
                 break;
@@ -222,8 +237,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
+        if(IsLevelOver) {
+            // prevent it from happening multiple times
+            return;
+        }
+
         Die();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        deathLinger = LINGER_DURATION;
+        GameObject.Find("Black Overlay").GetComponent<BlackScreen>().CutToBlack();
+        // play sound effect here probably
     }
 
     /// <summary>

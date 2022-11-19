@@ -47,17 +47,22 @@ public class BirdMovement : MonoBehaviour
         targetPosition = waypoints[targetWPIndex];
     }
 
-    void Update()
+    private void FixedUpdate()
+    {
+        UpdateBird();
+    }
+
+    public void UpdateBird()
     {
         switch (action)
         {
             case BirdAction.Guarding:
-                UpdateBird();
+                UpdateBirdMovement();
                 UpdateWaypoint();
                 break;
             case BirdAction.Chasing:
                 UpdateTarget();
-                UpdateBird();
+                UpdateBirdMovement();
                 break;
             case BirdAction.Attacking:
                 break;
@@ -94,7 +99,7 @@ public class BirdMovement : MonoBehaviour
     {
         CheckIfReachedWaypoint();
     }
-    private void UpdateBird()
+    private void UpdateBirdMovement()
     {
         MoveToTargetLinear();
         MoveToTargetAngular();

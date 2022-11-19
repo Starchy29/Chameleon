@@ -87,7 +87,7 @@ public class BirdFOV : MonoBehaviour
         if (targetAquired)
         {
             // Instead of triggering reset it will trigger behavior change for enemy - attack
-            GameManager.Instance.RestartLevel(); // Reset scene
+            GameManager.Instance.PlayerDead(); // Reset scene
         }
     }
 

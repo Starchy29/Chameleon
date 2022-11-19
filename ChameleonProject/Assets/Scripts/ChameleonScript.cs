@@ -66,7 +66,12 @@ public class ChameleonScript : MonoBehaviour
     }
 
     // FixedUpdate helps with the wall jitteriness
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        UpdateChameleon();
+    }
+
+    public void UpdateChameleon()
     {
         // move
         if (body.velocity != Vector2.zero)
@@ -260,7 +265,7 @@ public class ChameleonScript : MonoBehaviour
 
         else if (collision.gameObject.tag == "Snake")
         {
-            GameManager.Instance.RestartLevel();
+            GameManager.Instance.PlayerDead();
         }
     }
 

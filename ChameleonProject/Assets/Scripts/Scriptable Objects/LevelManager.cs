@@ -77,7 +77,7 @@ public class LevelManager : ScriptableObject
     public int InitLevels()
     {
         levels = new List<Level>();
-        Achievements levelAchievements = new Achievements(1,1,5); // need to be changed per level
+        Achievements levelAchievements = new Achievements(10,1,5); // need to be changed per level
         CreateLevel(3, levelAchievements);  // Level 1 
         CreateLevel(3, levelAchievements);  // Level 2 
         CreateLevel(2, levelAchievements);  // Level 3 
@@ -98,7 +98,7 @@ public class LevelManager : ScriptableObject
         levelStats = new Dictionary<Level, PlayerData>(levelCount);
         for (int i = 0; i < levelCount; i++)
         {
-            levelStats[levels[i]] = new PlayerData();
+            levelStats[levels[i]] = new PlayerData(0f);
         }
     }
 
@@ -112,36 +112,38 @@ public class LevelManager : ScriptableObject
     /// </summary>
     /// <param name="level">Level that you want its data updated</param>
     /// <param name="playerData">New player data</param>
-    public void UpdateLevelData(Level level, PlayerData playerData)
+    public PlayerData UpdateLevelData(Level level, PlayerData playerData)
     {
         // if better than previous data, update;
         PlayerData previousData = levelStats[level];
-        if (previousData.Timestamp == 0)
-        {
-            levelStats[level] = playerData;
-        }
-        // Previous data exists
-        else
+        if (previousData.Timestamp != 0)
         {
             // Keep the run that has more stars
             //if(playerData.Stars > previousData.Stars)
             //{
             //    levelStats[level] = playerData;
             //}
-
             // Or replace data 1x1
-            if(playerData.Timestamp < previousData.Timestamp) { levelStats[level].Timestamp = playerData.Timestamp; }
-            if(playerData.FliesEaten > previousData.FliesEaten) { levelStats[level].FliesEaten = playerData.FliesEaten; }
-            if(playerData.Deaths < previousData.Deaths) { levelStats[level].Deaths = playerData.Deaths; }
+            if (playerData.Timestamp < previousData.Timestamp) { previousData.Timestamp = playerData.Timestamp; }
+            if (playerData.FliesEaten > previousData.FliesEaten) { previousData.FliesEaten = playerData.FliesEaten; }
+            if (playerData.Deaths < previousData.Deaths) { previousData.Deaths = playerData.Deaths; }
+            levelStats[level] = previousData;
         }
+        else
+        {
+            levelStats[level] = playerData;
+        }
+
         CheckStars(level);
+        playerData.Print();
+        return levelStats[level];
     }
     /// <summary>
     /// Checks how many stars the player has on the level
     /// </summary>
     /// <param name="level">Level to check stars</param>
     /// <returns>Number of stars for the specified level</returns>
-    private int CheckStars(Level level)
+    private void CheckStars(Level level)
     {
         // Check each variable against its baseline
         PlayerData playerData = levelStats[level];
@@ -149,7 +151,6 @@ public class LevelManager : ScriptableObject
         if(playerData.Stars == 3)
         {
             Debug.Log("Already has 3 stars");
-            return playerData.Stars;
         }
 
         // Update star status
@@ -159,8 +160,7 @@ public class LevelManager : ScriptableObject
         if (playerData.Deaths < ach.MaxDeaths) { playerData.AddDeathStar(); }
 
         Debug.Log("Level " + level.Number +" has " + playerData.Stars  + " stars");
-
-        return playerData.Stars;
+        levelStats[level] = playerData;
     }
     /// <summary>
     /// Prints player data from each level
@@ -248,9 +248,10 @@ public class Level
 }
 
 /// <summary>
-/// Player data for each level
+/// Player data for each level.
+/// Changed from reference to value type in order to update score
 /// </summary>
-public class PlayerData : ScriptableObject
+public struct PlayerData
 {
     // current level stats
     float timestamp;
@@ -279,9 +280,10 @@ public class PlayerData : ScriptableObject
     {
         get { return timeStar + flyStar + deathStar; }
     }
-    public PlayerData()
+
+    public PlayerData(float timestamp)
     {
-        timestamp = 0f;
+        this.timestamp = timestamp;
         deaths = 0;
         flies = 0;
         timeStar = 0;
@@ -289,25 +291,49 @@ public class PlayerData : ScriptableObject
         deathStar = 0;
     }
 
+    public bool GotTimeStar()
+    {
+        if (timeStar == 1) { return true; }
+        return false;
+    }
+    public bool GotFlyStar()
+    {
+        if (flyStar == 1) { return true; }
+        return false;
+    }
+    public bool GotDeathStar()
+    {
+        if (deathStar == 1) { return true; }
+        return false;
+    }
+
     public void AddTimeStar()
     {
-        Debug.Log("Got time star");
+        //Debug.Log("Got time star");
         timeStar=1;
     }
     public void AddFlyStar()
     {
-        Debug.Log("Got fly star");
+        //Debug.Log("Got fly star");
         flyStar = 1;
     }
     public void AddDeathStar()
     {
-        Debug.Log("Got death star");
+        //Debug.Log("Got death star");
         deathStar = 1;
     }
     public void Die()
     {
         deaths++;
+        ResetFlies();
+    }
+    public void ResetFlies()
+    {
         flies = 0;
+    }
+    public void ResetDeaths()
+    {
+        deaths = 0;
     }
     public int EatFly()
     {

@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     {
         PLAY,
         PAUSE,
+        END,
         WIN
     }
     private LevelManager levelManager;
@@ -20,6 +21,8 @@ public class GameManager : MonoBehaviour
     private float gameTimer;
     private float timerSeconds;
     private int timerMinutes;
+    private ChameleonScript chameleon;
+    private BirdMovement bird1;
     private PlayerData playerData;
 
     public static GameManager Instance
@@ -65,7 +68,7 @@ public class GameManager : MonoBehaviour
         // Init UI
         currentLevel = GetLevelFromScene(SceneManager.GetActiveScene()); // Get current level
         SceneManager.sceneLoaded += OnSceneLoaded;
-        playerData = new PlayerData();
+        playerData = new PlayerData(0f);
     }
 
     private void Update()
@@ -80,8 +83,21 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.PAUSE:
                 break;
+            case GameState.END:
+                break;
             case GameState.WIN:
                 Debug.Log("WIN");
+                break;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        switch (state)
+        {
+            case GameState.PLAY:
+                //chameleon.UpdateChameleon();
+                //bird1.UpdateBird();
                 break;
         }
     }
@@ -129,16 +145,16 @@ public class GameManager : MonoBehaviour
     /// <returns>If player can win - bool</returns>
     public void CheckWin()
     {
-        // Should be a player method
+        // Should probably be a player method
         //Debug.Log("Check finish");
         if (playerData.FliesEaten >= currentLevel.MaxFlies)
         {
-            //Debug.Log("You have enough Flies!");
-            ui.UpdateObjectiveUI("You have enough Flies!\nGet to your tree");
             playerData.Timestamp = gameTimer;
-            levelManager.UpdateLevelData(currentLevel, playerData); // Store data
-            // Needs to calculate stars - compare against level data
-            NextScene();
+            PlayerData pd = levelManager.UpdateLevelData(currentLevel, playerData); // Store data
+            ui.SetEndLevelScreen();
+            ui.UpdateEndLevelScreen(currentLevel.Number, pd);
+            playerData.ResetDeaths();
+            state = GameState.END;
             return;
         }
 
@@ -149,14 +165,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Loads next scene
     /// </summary>
-    private void NextScene()
+    public void NextScene()
     {
         // check if there are more levels
         if(currentLevel.Number < levelManager.Levels.Count)
         {
             //Debug.Log("Next Level!");
             ResetVariables();
-            playerData = new PlayerData(); // new set
+            playerData = new PlayerData(0f); // new set
 
             // Jank - updating current level depends on scene while scene (start method) depends on current level
             // So currentLevel needs to be updated before 
@@ -211,6 +227,9 @@ public class GameManager : MonoBehaviour
         ui.UpdateObjectiveUI("Eat flies");
         //Debug.Log("Init UI"); // Debug
 
+        //chameleon = GameObject.Find("Chameleon").GetComponent<ChameleonScript>();
+        //bird1 = GameObject.Find("Bird").GetComponent<BirdMovement>();
+
         // Init GameState
         ResetVariables();
         state = GameState.PLAY;
@@ -222,19 +241,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        Die();
+        gameTimer = 0f; // resets timer
+        //playerData.Print();
+        playerData.ResetFlies();
+        ui.UpdateProgressUI(playerData.FliesEaten.ToString());
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     /// <summary>
     /// Resets scene and player data
     /// </summary>
-    private void Die()
+    public void PlayerDead()
     {
         playerData.Die(); // adds death resets flies
-        gameTimer = 0f; // resets timer
-        //playerData.Print();
-        ui.UpdateProgressUI(playerData.FliesEaten.ToString());
+        RestartLevel();
     }
 
     private void ResetVariables()

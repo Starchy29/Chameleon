@@ -340,6 +340,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2956805012736399642, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263663983210874963, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263663983210874963, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263663983210874963, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7907435384451343404, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 230.41003
@@ -1295,7 +1311,7 @@ MonoBehaviour:
   m_BoundingVolume: {fileID: 0}
   m_BoundingShape2D: {fileID: 1726834019}
   m_ConfineScreenEdges: 1
-  m_Damping: 0.4
+  m_Damping: 0
 --- !u!114 &1732801687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2077,11 +2093,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.76587343
+      value: -0.7688446
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8001363
+      value: -2.800161
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2113,6 +2129,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680256026443607187, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680256026443607187, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680256026443607187, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680256026443607187, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
+      propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607189, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}

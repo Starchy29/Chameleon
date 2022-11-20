@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 1392916433
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 95558ae8bfbaa00459b7694ed6c6b195, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63c6198ba2edbac41a41c598fd5ed6e5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,6 +154,15 @@ MonoBehaviour:
   blueSprite: {fileID: 21300000, guid: 43fe043f4a6ecbc4d879f5eb6a1bd2e5, type: 3}
   greenSprite: {fileID: 21300000, guid: 58114ee933fd2ad47979712559079390, type: 3}
   brownSprite: {fileID: 21300000, guid: 765cde617b5b03c419e0a9af27563645, type: 3}
+  animationFrames:
+  - {fileID: 21300000, guid: 63c6198ba2edbac41a41c598fd5ed6e5, type: 3}
+  - {fileID: 21300000, guid: 203beff107b070d4a853e6793cbbc317, type: 3}
+  - {fileID: 21300000, guid: fa5d4b31f3b49304893d80bf3c4cc444, type: 3}
+  - {fileID: 21300000, guid: 203beff107b070d4a853e6793cbbc317, type: 3}
+  - {fileID: 21300000, guid: 63c6198ba2edbac41a41c598fd5ed6e5, type: 3}
+  - {fileID: 21300000, guid: 6e5b1a29de9c907479285f4c98861750, type: 3}
+  - {fileID: 21300000, guid: fc05a2a296045114d933358f4c55045d, type: 3}
+  - {fileID: 21300000, guid: 6e5b1a29de9c907479285f4c98861750, type: 3}
 --- !u!114 &1530539211456207406
 MonoBehaviour:
   m_ObjectHideFlags: 0

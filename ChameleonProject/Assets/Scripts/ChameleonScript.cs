@@ -27,6 +27,12 @@ public class ChameleonScript : MonoBehaviour
     [SerializeField] private Sprite greenSprite;
     [SerializeField] private Sprite brownSprite;
 
+    // animation variables
+    [SerializeField] private Sprite[] animationFrames; // set as prefab only
+    private int currentFrame;
+    private float animationTimer;
+    private const float FRAMERATE = 0.05f; // duration of each frame
+
     private Rigidbody2D body;
     private Tilemap tiles;
 
@@ -117,8 +123,24 @@ public class ChameleonScript : MonoBehaviour
         {
             float angle = Mathf.Atan2(body.velocity.y, body.velocity.x) * 180f / Mathf.PI; // converted to degrees
             transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
 
+            // animate when moving only
+            animationTimer -= Time.deltaTime;
+            if(animationTimer <= 0) {
+                // change frame
+                animationTimer = FRAMERATE;
+                currentFrame++;
+                if(currentFrame >= animationFrames.Length) {
+                    // loop when reaching end of array
+                    currentFrame = 0;
+                }
+            }
+        } else {
+            // end animation when not moving
+            currentFrame = 0;
+            animationTimer = 0;
+        }
+        GetComponent<SpriteRenderer>().sprite = animationFrames[currentFrame];
         // check visibility from tile
         onMatchingTile = false; // visible until proven hidden
         currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
@@ -219,17 +241,16 @@ public class ChameleonScript : MonoBehaviour
         switch (color)
         {
             case BodyColor.Blue:
-                //GetComponent<SpriteRenderer>().color = new Color(0.2f, 0.5f, 1.0f);
-                newColor = Color.blue;
+                newColor = new Color(0.4f, 1.0f, 1.0f);
                 break;
             case BodyColor.Green:
-                newColor = Color.green;
+                newColor = new Color(0.2f, 0.7f, 0.2f);
                 break;
             case BodyColor.Red:
-                newColor = Color.red;
+                newColor = new Color(0.8f, 0.1f, 0.1f);
                 break;
             case BodyColor.Brown:
-                newColor = new Color(0.5f, 0.1f, 0.1f);
+                newColor = new Color(0.4f, 0.2f, 0.1f);
                 break;
         }
         GetComponent<SpriteRenderer>().color = newColor;

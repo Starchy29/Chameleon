@@ -286,7 +286,10 @@ public class ChameleonScript : MonoBehaviour
 
         else if (collision.gameObject.tag == "Snake")
         {
+
             GameManager.Instance.RestartLevel();
+            soundManager.PlaySnakeDeathSound();
+            soundManager.StopFootsteps();
         }
     }
 

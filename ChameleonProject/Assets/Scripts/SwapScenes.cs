@@ -14,10 +14,10 @@ public class SwapScenes : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (SceneManager.GetActiveScene().name == "Level-1")
-        //{
-        //    BGSoundScript.Instance.GetComponent<AudioSource>().Play();
-        //}
+        if (SceneManager.GetActiveScene().name == "Level-1")
+        {
+            BGSoundScript.Instance.GetComponent<AudioSource>().Play();
+        }
         if (SceneManager.GetActiveScene().name == "Menu")
         {
              BGSoundScript.Instance.GetComponent<AudioSource>().Stop();

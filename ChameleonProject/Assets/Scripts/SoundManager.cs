@@ -16,6 +16,8 @@ public class SoundManager : MonoBehaviour
     private AudioSource dirtFootstepSound;
     private AudioSource clayFootstepSound;
 
+    private AudioSource snakeDeathSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,8 @@ public class SoundManager : MonoBehaviour
         rockFootstepSound = mySounds[4];
         dirtFootstepSound = mySounds[5];
         clayFootstepSound = mySounds[6];
+
+        snakeDeathSound = mySounds[7];
     }
 
     public void PlayEatingSound()
@@ -38,6 +42,11 @@ public class SoundManager : MonoBehaviour
     public void PlayBushSound()
     {
         bushSound.Play();
+    }
+
+    public void PlaySnakeDeathSound()
+    {
+        snakeDeathSound.Play();
     }
 
     //grass footstep

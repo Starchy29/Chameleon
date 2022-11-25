@@ -74,6 +74,9 @@ public class FieldOfViewScript : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;  // Walk speed
     [SerializeField] private int waypointIndex = 0; // Index of current waypoint 
 
+    private EnemySoundManager eSoundManager;
+    private bool soundPlayed = false;
+
     private void Start()
     {
         viewMesh = new Mesh();
@@ -85,6 +88,8 @@ public class FieldOfViewScript : MonoBehaviour
         {
             transform.position = waypoints[waypointIndex].transform.position;
         }
+
+        eSoundManager = GetComponent<EnemySoundManager>();
     }
 
     private void Update()
@@ -202,10 +207,35 @@ public class FieldOfViewScript : MonoBehaviour
                         if (chameleonScript.Visible)
                         {
                             targetAquired = true;
+
+                            //plays death sound when spotted
+                            if(soundPlayed == false)
+                            {
+                                //plays bird death sound
+                                if (enemyMovement == EnemyMovement.BirdMovement)
+                                {
+                                    eSoundManager.PlayBirdDeathSound();
+                                }
+                                //plays snake death sound
+                                else
+                                {
+                                    eSoundManager.PlaySnakeDeathSound();
+                                }
+                                soundPlayed = true;
+                            }
                         }
-                        else { targetAquired = false; }
+                        else
+                        {
+                            targetAquired = false;
+                            soundPlayed = false;
+
+                        }
                     }
-                    else { targetAquired = false; }
+                    else
+                    {
+                        targetAquired = false;
+                        soundPlayed = false;
+                    }
                 }
             }
         }

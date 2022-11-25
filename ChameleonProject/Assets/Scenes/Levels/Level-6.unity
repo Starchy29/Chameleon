@@ -233,11 +233,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: fovRotation
-      value: 360
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: enemyMovement
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: innerViewRadius
@@ -1199,7 +1199,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: fovRotation
-      value: 360
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: enemyMovement
@@ -1396,7 +1396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: fovRotation
-      value: 360
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: enemyMovement
@@ -2513,7 +2513,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: fovRotation
-      value: 360
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 977762797275472677, guid: 1bb5d81833c0b6b4a88ffd371e3c061c, type: 3}
       propertyPath: enemyMovement

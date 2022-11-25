@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1748430185918134028, guid: 7625cc0a1eb33cf40bd1803cea537acd, type: 3}
       propertyPath: fovRotation
-      value: 271
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1748430185918134028, guid: 7625cc0a1eb33cf40bd1803cea537acd, type: 3}
       propertyPath: enemyMovement
@@ -1833,7 +1833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1748430185918134028, guid: 7625cc0a1eb33cf40bd1803cea537acd, type: 3}
       propertyPath: fovRotation
-      value: 177
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1748430185918134028, guid: 7625cc0a1eb33cf40bd1803cea537acd, type: 3}
       propertyPath: enemyMovement

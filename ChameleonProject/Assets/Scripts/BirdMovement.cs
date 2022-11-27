@@ -20,12 +20,14 @@ public class BirdMovement : MonoBehaviour
     private GameObject player;
     private GameObject fov;
     private BirdFOV fovScript;
+    private float searchTimer;
 
     [Header("Target Data")]
     [SerializeField] private GameObject waypointContainer;
     [SerializeField] private Vector2[] waypoints;
     [SerializeField] private Vector2 targetPosition;
     private int targetWPIndex;
+
     private void CheckError(string error)
     {
         if (error.Length > 0)
@@ -61,12 +63,15 @@ public class BirdMovement : MonoBehaviour
                 UpdateWaypoint();
                 break;
             case BirdAction.Chasing:
-                UpdateTarget();
+                UpdateTarget(player.transform.position);
                 UpdateBirdMovement();
                 break;
             case BirdAction.Attacking:
+                UpdateTarget(player.transform.position);
+                UpdateBirdMovement();
                 break;
             case BirdAction.Searching:
+                UpdateSearch();
                 break;
             case BirdAction.Returning:
                 break;
@@ -97,7 +102,27 @@ public class BirdMovement : MonoBehaviour
     }
     private void UpdateWaypoint()
     {
-        CheckIfReachedWaypoint();
+        if (ReachedPosition(targetPosition))
+        {
+            NextWaypoint();
+        }
+    }
+    private void UpdateSearch()
+    {
+        if (ReachedPosition(targetPosition))
+        {
+            MoveToTargetLinear(0f);
+            searchTimer += Time.deltaTime;
+            if(searchTimer > 2.0f)
+            {
+                searchTimer = 0f; // Reset timer
+                action = BirdAction.Guarding;
+            }
+        }
+        else
+        {
+            UpdateBirdMovement();
+        }
     }
     private void UpdateBirdMovement()
     {
@@ -108,6 +133,11 @@ public class BirdMovement : MonoBehaviour
     {
         Vector3 direction = (targetPosition - birdRB.position).normalized; // Get direction to the target
         birdRB.velocity = direction * maxSpeed;
+    }
+    private void MoveToTargetLinear(float speed)
+    {
+        Vector3 direction = (targetPosition - birdRB.position).normalized; // Get direction to the target
+        birdRB.velocity = direction * speed;
     }
     private void MoveToTargetAngular()
     {
@@ -121,12 +151,13 @@ public class BirdMovement : MonoBehaviour
             //fov.transform.rotation = transform.rotation; // Why does this not work
         }
     }
-    private void CheckIfReachedWaypoint()
+    private bool ReachedPosition(Vector2 targetPosition)
     {
         if (Vector2.Distance(transform.position, targetPosition) < 0.5f)
         {
-            NextWaypoint();
+            return true;
         }
+        return false;
     }
     private void NextWaypoint()
     {
@@ -141,9 +172,9 @@ public class BirdMovement : MonoBehaviour
 
         targetPosition = waypoints[targetWPIndex];
     }
-    private void UpdateTarget()
+    private void UpdateTarget(Vector3 targetPosition)
     {
-        targetPosition = player.transform.position;
+        this.targetPosition = targetPosition;
     }
 
     // Transitions

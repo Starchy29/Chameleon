@@ -42,10 +42,14 @@ public class BirdFOV : MonoBehaviour
     private int edgeResolveIterations;
     private float edgeDistanceThreshold;
 
-    private LayerMask targetMask;    // Targets in the cone vision
-    private LayerMask obstacleMask;  //Objects that block the cone vision
+    [SerializeField] private LayerMask targetMask;    // Targets in the cone vision
+    [SerializeField] private LayerMask obstacleMask;  //Objects that block the cone vision
     private bool targetAquired;
-    private List<Transform> visibleTargets;
+    private List<Transform> visibleTargetsInner;
+    private List<Transform> visibleTargetsOuter;
+    private BirdMovement birdMovement;
+    private GameObject chameleon;
+    private bool prevTargetStatus = false;
 
     private Mesh viewMesh;
     public MeshFilter viewMeshFilter;
@@ -70,8 +74,10 @@ public class BirdFOV : MonoBehaviour
 
     private void Start()
     {
-        visibleTargets = new List<Transform>();
+        visibleTargetsInner = new List<Transform>();
+        visibleTargetsOuter = new List<Transform>();
         targetAquired = false;
+        birdMovement = GetComponent<BirdMovement>();
 
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
@@ -87,8 +93,20 @@ public class BirdFOV : MonoBehaviour
         if (targetAquired)
         {
             // Instead of triggering reset it will trigger behavior change for enemy - attack
-            GameManager.Instance.PlayerDead(); // Reset scene
+            birdMovement.SpottedEnemy(chameleon);
+            if (CheckInnerCircle())
+            {
+                GameManager.Instance.PlayerDead(); // Reset scene
+            }
         }
+        else
+        {
+            if (prevTargetStatus)
+            {
+                birdMovement.LostEnemy();
+            }
+        }
+        prevTargetStatus = targetAquired;
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -96,20 +114,19 @@ public class BirdFOV : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(delay);
-            FindVisibleTargets();
+            CheckOuterCircle();
         }
     }
-    private void FindVisibleTargets()
+    private void CheckOuterCircle()
     {
-        visibleTargets.Clear();
+        visibleTargetsOuter.Clear();
 
-        Collider2D[] targetsInInnerRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), innerRadius, targetMask);
         Collider2D[] targetsInOuterRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), outerRadius, targetMask);
 
-        //For any targets within the radius
-        for (int i = 0; i < targetsInInnerRadius.Length; i++)
+        // For any targets within the outer radius
+        for (int i = 0; i < targetsInOuterRadius.Length; i++)
         {
-            Transform target = targetsInInnerRadius[i].transform;
+            Transform target = targetsInOuterRadius[i].transform;
 
             // Direction to Target
             Vector2 dirToTarget = (target.position - transform.position).normalized;
@@ -122,12 +139,13 @@ public class BirdFOV : MonoBehaviour
 
                 if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
                 {
-                    visibleTargets.Add(target);
+                    visibleTargetsOuter.Add(target);
 
                     // Check if chameleon is visable & if object is the chameleon
                     ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
                     if (chameleonScript != null)
                     {
+                        chameleon = chameleonScript.gameObject;
                         if (chameleonScript.Visible)
                         {
                             targetAquired = true;
@@ -138,6 +156,46 @@ public class BirdFOV : MonoBehaviour
                 }
             }
         }
+    }
+    private bool CheckInnerCircle()
+    {
+        visibleTargetsInner.Clear();
+
+        Collider2D[] targetsInInnerRadius = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), innerRadius, targetMask);
+
+        // For any targets within the outer radius
+        for (int i = 0; i < targetsInInnerRadius.Length; i++)
+        {
+            Transform target = targetsInInnerRadius[i].transform;
+
+            // Direction to Target
+            Vector2 dirToTarget = (target.position - transform.position).normalized;
+
+            // Checks the SIDES of the vision cone
+            if (Vector2.Angle(new Vector2(Mathf.Sin(fovRotation * Mathf.Deg2Rad), Mathf.Cos(fovRotation * Mathf.Deg2Rad)), dirToTarget) < viewAngle / 2)
+            {
+                // Distance between enemy and target
+                float distToTarget = Vector3.Distance(transform.position, target.position);
+
+                if (!Physics2D.Raycast(transform.position, dirToTarget, distToTarget, obstacleMask))
+                {
+                    visibleTargetsInner.Add(target);
+
+                    // Check if chameleon is visable & if object is the chameleon
+                    ChameleonScript chameleonScript = target.gameObject.GetComponent<ChameleonScript>();
+                    if (chameleonScript != null)
+                    {
+                        chameleon = chameleonScript.gameObject;
+                        if (chameleonScript.Visible)
+                        {
+                            return true;
+                        }
+                        else { return false; }
+                    }
+                }
+            }
+        }
+        return false;
     }
     private void DrawFieldOfView()
     {

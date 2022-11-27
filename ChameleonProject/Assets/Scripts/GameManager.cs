@@ -263,10 +263,10 @@ public class GameManager : MonoBehaviour
 
         // Die();
         // deathLinger = LINGER_DURATION;
-        // GameObject.Find("Black Overlay").GetComponent<BlackScreen>().CutToBlack();
+        GameObject.Find("Black Overlay").GetComponent<BlackScreen>().CutToBlack();
         // play sound effect here probably
 
-        
+
         gameTimer = 0f; // resets timer
         //playerData.Print();
         playerData.ResetFlies();
@@ -289,11 +289,4 @@ public class GameManager : MonoBehaviour
         playerData.Print();
     }
 
-    /// <summary>
-    /// Quits the game.
-    /// </summary>
-    public void QuitApplication()
-    {
-        Application.Quit();
-    }
 }

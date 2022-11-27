@@ -72,7 +72,12 @@ public class ChameleonScript : MonoBehaviour
     }
 
     // FixedUpdate helps with the wall jitteriness
-    void FixedUpdate()
+    private void FixedUpdate()
+    {
+        UpdateChameleon();
+    }
+
+    public void UpdateChameleon()
     {
         if(GameManager.Instance.IsLevelOver) {
             return; // prevent interactions after dying
@@ -287,9 +292,9 @@ public class ChameleonScript : MonoBehaviour
         else if (collision.gameObject.tag == "Snake")
         {
 
-            GameManager.Instance.RestartLevel();
             soundManager.PlaySnakeDeathSound();
             soundManager.StopFootsteps();
+            GameManager.Instance.PlayerDead();
         }
     }
 

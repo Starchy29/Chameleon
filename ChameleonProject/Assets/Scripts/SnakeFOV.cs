@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-
-
-public class BirdFOV : MonoBehaviour
+public class SnakeFOV : MonoBehaviour
 {
     public struct ViewCastInfo
     {
@@ -47,7 +44,7 @@ public class BirdFOV : MonoBehaviour
     private bool targetAquired;
     private List<Transform> visibleTargetsInner;
     private List<Transform> visibleTargetsOuter;
-    private BirdMovement birdMovement;
+    private SnakeMovement snakeMovement;
     private GameObject chameleon;
     private bool prevTargetStatus = false;
 
@@ -77,7 +74,7 @@ public class BirdFOV : MonoBehaviour
         visibleTargetsInner = new List<Transform>();
         visibleTargetsOuter = new List<Transform>();
         targetAquired = false;
-        birdMovement = GetComponent<BirdMovement>();
+        snakeMovement = GetComponent<SnakeMovement>();
 
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
@@ -94,18 +91,14 @@ public class BirdFOV : MonoBehaviour
         if (targetAquired)
         {
             // Instead of triggering reset it will trigger behavior change for enemy - attack
-            birdMovement.SpottedEnemy(chameleon);
-            if (CheckInnerCircle())
-            {
-                GameManager.Instance.PlayerDead(); // Reset scene
-            }
+            snakeMovement.SpottedEnemy(chameleon);
         }
         else
         {
-            if (prevTargetStatus)
-            {
-                birdMovement.LostEnemy();
-            }
+            //if (prevTargetStatus)
+            //{
+            //    birdMovement.LostEnemy();
+            //}
         }
         prevTargetStatus = targetAquired;
     }

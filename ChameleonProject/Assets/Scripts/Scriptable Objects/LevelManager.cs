@@ -86,6 +86,8 @@ public class LevelManager : ScriptableObject
         CreateLevel(5, levelAchievements); // Level 6
         CreateLevel(6, levelAchievements); // Level 7
         CreateLevel(7, levelAchievements); // Level 8
+        CreateLevel(8, levelAchievements); // Level 9
+        CreateLevel(10, levelAchievements); // Level 10
         //Debug.Log("Init Levels");
 
         return levels.Count;

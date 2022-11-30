@@ -289,4 +289,8 @@ public class GameManager : MonoBehaviour
         playerData.Print();
     }
 
+    public void OpenMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

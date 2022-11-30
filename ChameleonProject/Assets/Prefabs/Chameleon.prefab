@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openEye: {fileID: 21300000, guid: c772d3220fda73b4a972cbbc7b8112bb, type: 3}
   closedEye: {fileID: 21300000, guid: 1086bcbd6a7e7fb41871603350b4f7b3, type: 3}
+  squintEye: {fileID: 21300000, guid: e0f7b9eb66a1ed04389d0d5986cb2458, type: 3}
   startColor: 0
   Friction: 40
   Acceleration: 80

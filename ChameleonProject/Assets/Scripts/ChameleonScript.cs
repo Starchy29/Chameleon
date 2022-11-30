@@ -15,6 +15,7 @@ public class ChameleonScript : MonoBehaviour
     //[SerializeField] private FieldOfView fieldOfView;
     public Sprite openEye;
     public Sprite closedEye;
+    public Sprite squintEye;
 
     [SerializeField] private BodyColor startColor; // allows each level to start as a different color
     [SerializeField] private float Friction;
@@ -123,6 +124,13 @@ public class ChameleonScript : MonoBehaviour
 
         // rigidbody translates using velocity on its own
 
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+
+        // set alpha to 1 in case it is made translucent later
+        Color newColor = renderer.color;
+        newColor.a = 1f;
+        renderer.color = newColor;
+
         // rotate to face move direction
         if (body.velocity != Vector2.zero)
         {
@@ -144,8 +152,15 @@ public class ChameleonScript : MonoBehaviour
             // end animation when not moving
             currentFrame = 0;
             animationTimer = 0;
+
+            // become translucent when not moving on matching color
+            if(!Visible) {
+                newColor = renderer.color;
+                newColor.a = 0.5f;
+                renderer.color = newColor;
+            }
         }
-        GetComponent<SpriteRenderer>().sprite = animationFrames[currentFrame];
+        renderer.sprite = animationFrames[currentFrame];
         // check visibility from tile
         onMatchingTile = false; // visible until proven hidden
         currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
@@ -235,7 +250,7 @@ public class ChameleonScript : MonoBehaviour
             }
 
             // Updates Visibility UI
-            uiManager.UpdateVisibilityUI(Visible ? openEye : closedEye);
+            uiManager.UpdateVisibilityUI(Visible ? openEye : (body.velocity != Vector2.zero ? squintEye : closedEye)); // yes this is a lot of logic for one line but it works right I promise
         }
     }
 

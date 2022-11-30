@@ -272,4 +272,9 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void OpenMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
 }

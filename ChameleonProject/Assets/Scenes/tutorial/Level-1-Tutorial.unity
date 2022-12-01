@@ -1523,7 +1523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 339280066609166161, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00012445
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 339280066609166161, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1565,6 +1565,10 @@ PrefabInstance:
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: c117802f20ff52a4ba46b2245d5c1a2c, type: 2}
+    - target: {fileID: 1384879364185553350, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1384879364185553350, guid: 1214664a37cc8664bb8cd92d67ac7530, type: 3}
       propertyPath: m_sharedMaterial
       value: 
@@ -18015,7 +18019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.774961
+      value: -1.7689185
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.y

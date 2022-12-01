@@ -81,6 +81,7 @@ public class FieldOfViewScript : MonoBehaviour
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
+        viewMeshFilter = GetComponentInChildren<MeshFilter>();
         viewMeshFilter.mesh = viewMesh;
         StartCoroutine("FindTargetsWithDelay", .2f);
 

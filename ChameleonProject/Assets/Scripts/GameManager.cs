@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // TODO:
+    // Freeze enemies from moving and detecting chameleon
     public enum GameState
     {
         PLAY,

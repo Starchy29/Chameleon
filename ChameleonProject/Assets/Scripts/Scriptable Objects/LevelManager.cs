@@ -83,16 +83,16 @@ public class LevelManager : ScriptableObject
     public int InitLevels()
     {
         levels = new List<Level>();
-        CreateLevel(3, new Achievements(10, 1, 5));  // Level 1 
-        CreateLevel(3, new Achievements(10, 1, 5));  // Level 2 
-        CreateLevel(2, new Achievements(10, 1, 5));  // Level 3 
-        CreateLevel(4, new Achievements(10, 1, 5));  // Level 4 
-        CreateLevel(5, new Achievements(10, 1, 5));  // Level 5 
-        CreateLevel(5, new Achievements(10, 1, 5));  // Level 6
-        CreateLevel(6, new Achievements(10, 1, 5));  // Level 7
-        CreateLevel(7, new Achievements(10, 1, 5));  // Level 8
-        CreateLevel(8, new Achievements(10, 1, 5));  // Level 9
-        CreateLevel(10, new Achievements(10, 1, 5)); // Level 10
+        CreateLevel(3, new Achievements(20, 4, 2));  // Level 1 // Best - 7.57s
+        CreateLevel(3, new Achievements(15, 3, 2));  // Level 2 // Best - 10.12s
+        CreateLevel(2, new Achievements(14, 2, 2));  // Level 3 // Best - 7.91s
+        CreateLevel(4, new Achievements(15, 4, 0));  // Level 4 // Best - 19.71s
+        CreateLevel(6, new Achievements(20, 8, 2));  // Level 5 // Best - 15.96s
+        CreateLevel(5, new Achievements(20, 6, 1));  // Level 6 // Best - 16.79s
+        CreateLevel(6, new Achievements(26, 8, 2));  // Level 7 // Best - 21.80s
+        CreateLevel(7, new Achievements(50, 8, 2));  // Level 8 // Best - 49.64s
+        CreateLevel(8, new Achievements(30, 11, 2)); // Level 9 // Best - 24.78s
+        CreateLevel(10, new Achievements(40, 13, 0)); // Level 10 // Best - 38.11s
         //Debug.Log("Init Levels");
 
         return levels.Count;

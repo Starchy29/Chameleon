@@ -47,7 +47,7 @@ public class WallOutliner : MonoBehaviour
             AddFoliage(new Vector3(endPoint.x - OFFSET, y, 0), 180); // right
         }
         for(float x = startPoint.x; x <= endPoint.x; x += width) { // horizontal sides
-            AddFoliage(new Vector3(x, startPoint.y + OFFSET + 1, 0), 90); // bottom, NEEEDED +1 FOR SOME REASON
+            AddFoliage(new Vector3(x, startPoint.y + OFFSET, 0), 90); // bottom
             AddFoliage(new Vector3(x, endPoint.y - OFFSET, 0), 270); // top
         }
     }

@@ -32,7 +32,7 @@ public class BlackScreen : MonoBehaviour
 
     // makes the screen all black, then resets the level after a bit
     public void CutToBlack() {
-        Vector4.Lerp(sprite.color, new Color(0, 0, 0, 1), .5f);
-        //sprite.color = new Color(0, 0, 0, 1);
+        //Vector4.Lerp(sprite.color, new Color(0, 0, 0, 1), .5f);
+        sprite.color = new Color(0, 0, 0, 1);
     }
 }

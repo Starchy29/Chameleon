@@ -335,11 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.78050995
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8600013
+      value: -2.8600004
       objectReference: {fileID: 0}
     - target: {fileID: 5680256026443607184, guid: 7b3e40c2ed7f5ec4bac2d27c8be98fcf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2990,6 +2990,7 @@ GameObject:
   - component: {fileID: 7499251449916270636}
   - component: {fileID: 7499251449916270637}
   - component: {fileID: 7499251449916270635}
+  - component: {fileID: 7499251449916270640}
   m_Layer: 8
   m_Name: Tilemap-walls
   m_TagString: Untagged
@@ -2997,6 +2998,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7499251449916270640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7499251449916270639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97b9d53d04a162e4b88993aa80f17055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OutlinePrefab: {fileID: 7097102435230100929, guid: 7f05e7646f880f4449a5617d36950bab, type: 3}
+  FoliagePrefab: {fileID: 5597241808975185951, guid: 3682680ef85745946805abba2d06d28f, type: 3}
 --- !u!1839735485 &7499251450338138824
 Tilemap:
   m_ObjectHideFlags: 0

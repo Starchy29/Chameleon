@@ -178,7 +178,7 @@ public class LevelManager : ScriptableObject
         Achievements ach = level.Achievements;
         if (playerData.Timestamp < ach.TimestampToBeat) { playerData.AddTimeStar(); }
         if (playerData.FliesEaten >= ach.FliesToEat) { playerData.AddFlyStar(); }
-        if (playerData.Deaths < ach.MaxDeaths) { playerData.AddDeathStar(); }
+        if (playerData.Deaths <= ach.MaxDeaths) { playerData.AddDeathStar(); }
 
         Debug.Log("Level " + level.Number +" has " + playerData.Stars  + " stars");
         levelStats[level] = playerData;

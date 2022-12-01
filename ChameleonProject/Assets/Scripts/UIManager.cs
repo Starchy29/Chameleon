@@ -247,7 +247,14 @@ public class UIManager : MonoBehaviour
             return false;
         }
         Button nextButton = nextSceneButtonObj.GetComponent<Button>();
-        nextButton.onClick.AddListener(GameManager.Instance.NextScene);
+        if (GameManager.Instance.IsTutorial)
+        {
+            nextButton.onClick.AddListener(GameManager.Instance.OpenMainMenu);
+        }
+        else
+        {
+            nextButton.onClick.AddListener(GameManager.Instance.NextScene);
+        }
 
         return true;
     }

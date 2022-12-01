@@ -83,17 +83,16 @@ public class LevelManager : ScriptableObject
     public int InitLevels()
     {
         levels = new List<Level>();
-        Achievements levelAchievements = new Achievements(10,1,5); // need to be changed per level
-        CreateLevel(3, levelAchievements);  // Level 1 
-        CreateLevel(3, levelAchievements);  // Level 2 
-        CreateLevel(2, levelAchievements);  // Level 3 
-        CreateLevel(4, levelAchievements);  // Level 4 
-        CreateLevel(5, levelAchievements);  // Level 5 
-        CreateLevel(5, levelAchievements);  // Level 6
-        CreateLevel(6, levelAchievements);  // Level 7
-        CreateLevel(7, levelAchievements);  // Level 8
-        CreateLevel(8, levelAchievements);  // Level 9
-        CreateLevel(10, levelAchievements); // Level 10
+        CreateLevel(3, new Achievements(10, 1, 5));  // Level 1 
+        CreateLevel(3, new Achievements(10, 1, 5));  // Level 2 
+        CreateLevel(2, new Achievements(10, 1, 5));  // Level 3 
+        CreateLevel(4, new Achievements(10, 1, 5));  // Level 4 
+        CreateLevel(5, new Achievements(10, 1, 5));  // Level 5 
+        CreateLevel(5, new Achievements(10, 1, 5));  // Level 6
+        CreateLevel(6, new Achievements(10, 1, 5));  // Level 7
+        CreateLevel(7, new Achievements(10, 1, 5));  // Level 8
+        CreateLevel(8, new Achievements(10, 1, 5));  // Level 9
+        CreateLevel(10, new Achievements(10, 1, 5)); // Level 10
         //Debug.Log("Init Levels");
 
         return levels.Count;

@@ -5,9 +5,4 @@ using UnityEngine;
 public class BushScript : MonoBehaviour
 {
     public ChameleonScript.BodyColor color;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 }

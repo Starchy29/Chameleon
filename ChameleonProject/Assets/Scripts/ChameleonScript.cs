@@ -84,6 +84,12 @@ public class ChameleonScript : MonoBehaviour
             return; // prevent interactions after dying
         }
 
+        if (body == null)
+        {
+            Debug.Log(gameObject.name);
+            body = GetComponent<Rigidbody2D>();
+        }
+
         // move
         if (body.velocity != Vector2.zero)
         {
@@ -116,7 +122,7 @@ public class ChameleonScript : MonoBehaviour
         }
 
         //stops footstep sounds if not moving
-        if(movement == Vector2.zero)
+        if (movement == Vector2.zero)
         {
             soundManager.InvokeAudio();
             isMoving = false;
@@ -139,23 +145,27 @@ public class ChameleonScript : MonoBehaviour
 
             // animate when moving only
             animationTimer -= Time.deltaTime;
-            if(animationTimer <= 0) {
+            if (animationTimer <= 0)
+            {
                 // change frame
                 animationTimer = FRAMERATE;
                 currentFrame++;
-                if(currentFrame >= animationFrames.Length) {
+                if (currentFrame >= animationFrames.Length)
+                {
                     // loop when reaching end of array
                     currentFrame = 0;
                 }
             }
-        } 
-        else {
+        }
+        else
+        {
             // end animation when not moving
             currentFrame = 0;
             animationTimer = 0;
 
             // become translucent when not moving on matching color
-            if(!Visible) {
+            if (!Visible)
+            {
                 newColor = renderer.color;
                 newColor.a = 0.5f;
                 renderer.color = newColor;
@@ -166,93 +176,93 @@ public class ChameleonScript : MonoBehaviour
         onMatchingTile = false; // visible until proven hidden
         currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
         if (currentTile)
-        {
-            switch (color)
             {
-                case BodyColor.Blue:
-                    if (currentTile.sprite == blueSprite)
-                    {
-                        onMatchingTile = true;
-                    }
-                    break;
-                case BodyColor.Green:
-                    if (currentTile.sprite == greenSprite)
-                    {
-                        onMatchingTile = true;
-                    }
-                    break;
-                case BodyColor.Brown:
-                    if (currentTile.sprite == brownSprite)
-                    {
-                        onMatchingTile = true;
-                    }
-                    break;
-                case BodyColor.Red:
-                    if (currentTile.sprite == redSprite)
-                    {
-                        onMatchingTile = true;
-                    }
-                    break;
-            }
+                switch (color)
+                {
+                    case BodyColor.Blue:
+                        if (currentTile.sprite == blueSprite)
+                        {
+                            onMatchingTile = true;
+                        }
+                        break;
+                    case BodyColor.Green:
+                        if (currentTile.sprite == greenSprite)
+                        {
+                            onMatchingTile = true;
+                        }
+                        break;
+                    case BodyColor.Brown:
+                        if (currentTile.sprite == brownSprite)
+                        {
+                            onMatchingTile = true;
+                        }
+                        break;
+                    case BodyColor.Red:
+                        if (currentTile.sprite == redSprite)
+                        {
+                            onMatchingTile = true;
+                        }
+                        break;
+                }
 
-            //plays a footstep sound based on the current tile
-            switch(currentTile.name)
-            {
-                case "Grass Tile":
-                    if(isMoving == true)
-                    {
-                        soundManager.PlayGrassFootstep();
-                        soundManager.StopWaterFootstep();
-                        soundManager.StopRockFootstep();
-                        soundManager.StopDirtFootstep();
-                        soundManager.StopClayFootstep();
-                    }
-                    break;
-                case "Shallow Water Tile":
-                    if (isMoving == true)
-                    {
-                        soundManager.PlayWaterFootstep();
-                        soundManager.StopGrassFootstep();
-                        soundManager.StopRockFootstep();
-                        soundManager.StopDirtFootstep();
-                        soundManager.StopClayFootstep();
-                    }
-                    break;
-                case "Wall Tile":
-                    if (isMoving == true)
-                    {
-                        soundManager.PlayRockFootstep();
-                        soundManager.StopGrassFootstep();
-                        soundManager.StopWaterFootstep();
-                        soundManager.StopDirtFootstep();
-                        soundManager.StopClayFootstep();
-                    }
-                    break;
-                case "Clay Tile":
-                    if (isMoving == true)
-                    {
-                        soundManager.PlayClayFootstep();
-                        soundManager.StopGrassFootstep();
-                        soundManager.StopRockFootstep();
-                        soundManager.StopWaterFootstep();
-                        soundManager.StopDirtFootstep();
-                    }
-                    break;
-                case "Dirt Tile":
-                    if (isMoving == true)
-                    {
-                        soundManager.PlayDirtFootstep();
-                        soundManager.StopGrassFootstep();
-                        soundManager.StopRockFootstep();
-                        soundManager.StopWaterFootstep();
-                        soundManager.StopClayFootstep();
-                    }
-                    break;
-            }
+                //plays a footstep sound based on the current tile
+                switch (currentTile.name)
+                {
+                    case "Grass Tile":
+                        if (isMoving == true)
+                        {
+                            soundManager.PlayGrassFootstep();
+                            soundManager.StopWaterFootstep();
+                            soundManager.StopRockFootstep();
+                            soundManager.StopDirtFootstep();
+                            soundManager.StopClayFootstep();
+                        }
+                        break;
+                    case "Shallow Water Tile":
+                        if (isMoving == true)
+                        {
+                            soundManager.PlayWaterFootstep();
+                            soundManager.StopGrassFootstep();
+                            soundManager.StopRockFootstep();
+                            soundManager.StopDirtFootstep();
+                            soundManager.StopClayFootstep();
+                        }
+                        break;
+                    case "Wall Tile":
+                        if (isMoving == true)
+                        {
+                            soundManager.PlayRockFootstep();
+                            soundManager.StopGrassFootstep();
+                            soundManager.StopWaterFootstep();
+                            soundManager.StopDirtFootstep();
+                            soundManager.StopClayFootstep();
+                        }
+                        break;
+                    case "Clay Tile":
+                        if (isMoving == true)
+                        {
+                            soundManager.PlayClayFootstep();
+                            soundManager.StopGrassFootstep();
+                            soundManager.StopRockFootstep();
+                            soundManager.StopWaterFootstep();
+                            soundManager.StopDirtFootstep();
+                        }
+                        break;
+                    case "Dirt Tile":
+                        if (isMoving == true)
+                        {
+                            soundManager.PlayDirtFootstep();
+                            soundManager.StopGrassFootstep();
+                            soundManager.StopRockFootstep();
+                            soundManager.StopWaterFootstep();
+                            soundManager.StopClayFootstep();
+                        }
+                        break;
+                }
 
-            // Updates Visibility UI
-            uiManager.UpdateVisibilityUI(Visible ? openEye : (body.velocity != Vector2.zero ? squintEye : closedEye)); // yes this is a lot of logic for one line but it works right I promise
-        }
+                // Updates Visibility UI
+                uiManager.UpdateVisibilityUI(Visible ? openEye : (body.velocity != Vector2.zero ? squintEye : closedEye)); // yes this is a lot of logic for one line but it works right I promise
+            }
     }
 
     private void SetColor(BodyColor color)

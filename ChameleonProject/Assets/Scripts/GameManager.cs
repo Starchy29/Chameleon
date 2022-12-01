@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool IsTutorial
+    {
+        get { return isTutorial; }
+    }
+
     public virtual void Awake()
     {
         // Singleton instantiation
@@ -84,13 +89,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         playerData = new PlayerData(0f);
 
-        // Get chameleon
-        GameObject chameleonObj = GameObject.Find("Chameleon");
-        if(chameleonObj != null)
-        {
-            chameleon = chameleonObj.GetComponent<ChameleonScript>();
-        }
-        else { Debug.LogError("Coundn't find Chameleon Object"); }
+        GetChameleon();
     }
 
     private void Update()
@@ -104,27 +103,26 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.PLAY:
-                // pause for a moment after death
-                if(deathLinger > 0) {
-                    deathLinger -= Time.deltaTime;
-                    if(deathLinger <= 0) {
-                        // restart scene
-                        deathLinger = 0;
-                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                    }
-                } 
-                else 
-                {
-                    // normal update during game
-                    gameTimer += Time.deltaTime;
-                    timerSeconds = gameTimer % 60;
-                    timerMinutes = (int)gameTimer / 60;
-                    ui.UpdateTimerUI(timerMinutes.ToString()+":"+timerSeconds.ToString("f2"));
-                }
+                // normal update during game
+                gameTimer += Time.deltaTime;
+                timerSeconds = gameTimer % 60;
+                timerMinutes = (int)gameTimer / 60;
+                ui.UpdateTimerUI(timerMinutes.ToString()+":"+timerSeconds.ToString("f2"));
                 break;
             case GameState.PAUSE:
                 break;
             case GameState.END:
+                // pause for a moment after death
+                if (deathLinger > 0)
+                {
+                    deathLinger -= Time.deltaTime;
+                    if (deathLinger <= 0)
+                    {
+                        // restart scene
+                        deathLinger = 0;
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    }
+                }
                 break;
             case GameState.WIN:
                 break;
@@ -136,7 +134,14 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.PLAY:
-                chameleon.UpdateChameleon();
+                if (chameleon)
+                {
+                    chameleon.UpdateChameleon();
+                }
+                else
+                {
+                    GetChameleon();
+                }
                 //bird1.UpdateBird();
                 break;
             case GameState.PAUSE:
@@ -146,6 +151,17 @@ public class GameManager : MonoBehaviour
             case GameState.WIN:
                 break;
         }
+    }
+
+    private void GetChameleon()
+    {
+        // Get chameleon
+        GameObject chameleonObj = GameObject.Find("Chameleon");
+        if (chameleonObj != null)
+        {
+            chameleon = chameleonObj.GetComponent<ChameleonScript>();
+        }
+        else { Debug.LogError("Coundn't find Chameleon Object"); }
     }
 
     /// <summary>
@@ -287,12 +303,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        if (IsLevelOver)
-        {
-            // prevent it from happening multiple times
-            return;
-        }
-
         deathLinger = LINGER_DURATION;
         GameObject.Find("Black Overlay").GetComponent<BlackScreen>().CutToBlack();
 
@@ -307,8 +317,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayerDead()
     {
+        if (state == GameState.END) // state == GameState.END
+        {
+            // prevent it from happening multiple times
+            return;
+        }
         playerData.Die(); // adds death resets flies
         RestartLevel();
+        state = GameState.END;
     }
 
     private void ResetVariables()

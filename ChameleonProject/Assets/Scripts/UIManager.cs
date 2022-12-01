@@ -355,9 +355,12 @@ public class UIManager : MonoBehaviour
         endUI.SetActive(true);
         return true;
     }
-    public bool UpdateEndLevelScreen(int levelNumber, PlayerData playerData)
+    public bool UpdateEndLevelScreen(int levelNumber, PlayerData playerData, bool isTutorial)
     {
-        UpdateEndLevelUI(levelNumber);
+        if (!isTutorial)
+        {
+            UpdateEndLevelUI(levelNumber);
+        }
         UpdateTimerStarUI(playerData);
         UpdateFlyStarUI(playerData);
         UpdateDeathStarUI(playerData);

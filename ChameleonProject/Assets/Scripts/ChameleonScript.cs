@@ -78,6 +78,11 @@ public class ChameleonScript : MonoBehaviour
     //    UpdateChameleon();
     //}
 
+    public void Stop()
+    {
+        body.velocity = Vector2.zero;
+    }
+
     public void UpdateChameleon()
     {
         if(GameManager.Instance.IsLevelOver) {

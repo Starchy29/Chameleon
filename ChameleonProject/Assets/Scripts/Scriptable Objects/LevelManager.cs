@@ -105,7 +105,7 @@ public class LevelManager : ScriptableObject
     private int InitTutorial()
     {
         levels = new List<Level>();
-        CreateLevel(1, new Achievements(30, 1, 5));  // Level Ts
+        CreateLevel(2, new Achievements(30, 1, 5));  // Level Ts
         return levels.Count;
     }
 
@@ -177,7 +177,7 @@ public class LevelManager : ScriptableObject
         // Update star status
         Achievements ach = level.Achievements;
         if (playerData.Timestamp < ach.TimestampToBeat) { playerData.AddTimeStar(); }
-        if (playerData.FliesEaten > ach.FliesToEat) { playerData.AddFlyStar(); }
+        if (playerData.FliesEaten >= ach.FliesToEat) { playerData.AddFlyStar(); }
         if (playerData.Deaths < ach.MaxDeaths) { playerData.AddDeathStar(); }
 
         Debug.Log("Level " + level.Number +" has " + playerData.Stars  + " stars");

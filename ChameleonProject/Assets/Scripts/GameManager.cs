@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private BirdMovement bird1;
     private PlayerData playerData;
     private float deathLinger = 0; // timer to track how long the linger after dying has lasted
-    private const float LINGER_DURATION = 2.0f; // number of seconds to wait after dying before resetting
+    private const float LINGER_DURATION = 1.0f; // number of seconds to wait after dying before resetting
     private bool isTutorial = false;
 
     public bool IsLevelOver { 
@@ -145,8 +145,16 @@ public class GameManager : MonoBehaviour
                 //bird1.UpdateBird();
                 break;
             case GameState.PAUSE:
+                if (chameleon)
+                {
+                    chameleon.Stop();
+                }
                 break;
             case GameState.END:
+                if (chameleon)
+                {
+                    chameleon.Stop();
+                }
                 break;
             case GameState.WIN:
                 break;
@@ -214,7 +222,7 @@ public class GameManager : MonoBehaviour
             playerData.Timestamp = gameTimer;
             PlayerData pd = levelManager.UpdateLevelData(currentLevel, playerData); // Store data
             ui.SetEndLevelScreen();
-            ui.UpdateEndLevelScreen(currentLevel.Number, pd);
+            ui.UpdateEndLevelScreen(currentLevel.Number, pd, isTutorial);
             playerData.ResetDeaths();
             state = GameState.END;
             return;
@@ -269,6 +277,7 @@ public class GameManager : MonoBehaviour
     /// <param name="mode">Mode of loading</param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) 
     {
+        //if (isTutorial) { SceneManager.sceneLoaded -= OnSceneLoaded; } // Make sure it doesnt trugger when going back to menu
         // Get Scene UI
         if (!ui.GetSceneUI())
         {
@@ -317,9 +326,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlayerDead()
     {
-        if (state == GameState.END) // state == GameState.END
+        if (state == GameState.END)
         {
-            // prevent it from happening multiple times
             return;
         }
         playerData.Die(); // adds death resets flies
@@ -337,6 +345,7 @@ public class GameManager : MonoBehaviour
     {
         if (isTutorial)
         {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
             Destroy(gameObject);
         }
         SceneManager.LoadScene(0);

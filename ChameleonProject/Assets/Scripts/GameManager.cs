@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private BirdMovement bird1;
     private PlayerData playerData;
     private float deathLinger = 0; // timer to track how long the linger after dying has lasted
-    private const float LINGER_DURATION = 1.0f; // number of seconds to wait after dying before resetting
+    private const float LINGER_DURATION = 2.0f; // number of seconds to wait after dying before resetting
     private bool isTutorial = false;
 
     public bool IsLevelOver { 
@@ -287,22 +287,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        // if(IsLevelOver) {
-        //     // prevent it from happening multiple times
-        //     return;
-        // }
+        if (IsLevelOver)
+        {
+            // prevent it from happening multiple times
+            return;
+        }
 
-        // Die();
-        // deathLinger = LINGER_DURATION;
+        deathLinger = LINGER_DURATION;
         GameObject.Find("Black Overlay").GetComponent<BlackScreen>().CutToBlack();
-        // play sound effect here probably
-
 
         gameTimer = 0f; // resets timer
         //playerData.Print();
         playerData.ResetFlies();
         ui.UpdateProgressUI(playerData.FliesEaten.ToString());
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     /// <summary>

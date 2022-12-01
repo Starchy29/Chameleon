@@ -26,8 +26,18 @@ public class GameManager : MonoBehaviour
     private PlayerData playerData;
     private float deathLinger = 0; // timer to track how long the linger after dying has lasted
     private const float LINGER_DURATION = 1.0f; // number of seconds to wait after dying before resetting
+    private bool isTutorial = false;
 
-    public bool IsLevelOver { get { return deathLinger > 0; } } // track if level is lost but not restarted yet
+    public bool IsLevelOver { 
+        get 
+        {
+            if(deathLinger > 0)
+            {
+                return true;
+            }
+            return false; 
+        } 
+    } // track if level is lost but not restarted yet
 
     public static GameManager Instance
     {
@@ -47,10 +57,6 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
-    public static UIManager UI
-    {
-        get { return ui; }
-    }
 
     public virtual void Awake()
     {
@@ -65,18 +71,36 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // why does it need to be destroyed of contains instance
         }
 
+        Scene currentScene = SceneManager.GetActiveScene();
+        if(currentScene.buildIndex == 11){ isTutorial = true; }
+        else { isTutorial = false; }
+
         // Init LevelManager
-        levelManager = new LevelManager();
+        levelManager = new LevelManager(isTutorial);
         //Debug.Log("Init Level Data");
 
         // Init UI
-        currentLevel = GetLevelFromScene(SceneManager.GetActiveScene()); // Get current level
+        currentLevel = GetLevelFromScene(currentScene); // Get current level
         SceneManager.sceneLoaded += OnSceneLoaded;
         playerData = new PlayerData(0f);
+
+        // Get chameleon
+        GameObject chameleonObj = GameObject.Find("Chameleon");
+        if(chameleonObj != null)
+        {
+            chameleon = chameleonObj.GetComponent<ChameleonScript>();
+        }
+        else { Debug.LogError("Coundn't find Chameleon Object"); }
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            state = GameState.PAUSE;
+            ui.OpenPauseMenu();
+        }
+
         switch (state)
         {
             case GameState.PLAY:
@@ -88,7 +112,9 @@ public class GameManager : MonoBehaviour
                         deathLinger = 0;
                         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                     }
-                } else {
+                } 
+                else 
+                {
                     // normal update during game
                     gameTimer += Time.deltaTime;
                     timerSeconds = gameTimer % 60;
@@ -101,7 +127,6 @@ public class GameManager : MonoBehaviour
             case GameState.END:
                 break;
             case GameState.WIN:
-                Debug.Log("WIN");
                 break;
         }
     }
@@ -111,8 +136,14 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.PLAY:
-                //chameleon.UpdateChameleon();
+                chameleon.UpdateChameleon();
                 //bird1.UpdateBird();
+                break;
+            case GameState.PAUSE:
+                break;
+            case GameState.END:
+                break;
+            case GameState.WIN:
                 break;
         }
     }
@@ -230,7 +261,7 @@ public class GameManager : MonoBehaviour
         }
 
         //Debug.Log("Init Level " + currentLevel.Number);
-        Debug.Log("OnSceneLoaded: " + scene.name);
+        //Debug.Log("OnSceneLoaded: " + scene.name);
         //Debug.Log(mode);
 
         // Update Scene UI
@@ -289,13 +320,18 @@ public class GameManager : MonoBehaviour
         playerData.Print();
     }
 
-    public void OpenMenu()
+    public void OpenMainMenu()
     {
+        if (isTutorial)
+        {
+            Destroy(gameObject);
+        }
         SceneManager.LoadScene(0);
     }
 
-    public void Resume()
+    public void ResumeGame()
     {
-
+        state = GameState.PLAY;
+        ui.ClosePauseMenu();
     }
 }

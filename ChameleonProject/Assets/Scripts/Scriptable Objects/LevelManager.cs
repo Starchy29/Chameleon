@@ -53,10 +53,16 @@ public class LevelManager : ScriptableObject
     /// <summary>
     /// Level data constructor
     /// </summary>
-    public LevelManager()
+    public LevelManager(bool isTutorial)
     {
-        //InitLevels();
-        InitDict(InitLevels());
+        if (isTutorial)
+        {
+            InitDict(InitTutorial());
+        }
+        else
+        {
+            InitDict(InitLevels());
+        }
     }
 
     /// <summary>
@@ -73,7 +79,7 @@ public class LevelManager : ScriptableObject
     /// <summary>
     /// Creates levels with data and returns first level
     /// </summary>
-    /// <returns>First level</returns>
+    /// <returns>Level count</returns>
     public int InitLevels()
     {
         levels = new List<Level>();
@@ -83,13 +89,24 @@ public class LevelManager : ScriptableObject
         CreateLevel(2, levelAchievements);  // Level 3 
         CreateLevel(4, levelAchievements);  // Level 4 
         CreateLevel(5, levelAchievements);  // Level 5 
-        CreateLevel(5, levelAchievements); // Level 6
-        CreateLevel(6, levelAchievements); // Level 7
-        CreateLevel(7, levelAchievements); // Level 8
-        CreateLevel(8, levelAchievements); // Level 9
+        CreateLevel(5, levelAchievements);  // Level 6
+        CreateLevel(6, levelAchievements);  // Level 7
+        CreateLevel(7, levelAchievements);  // Level 8
+        CreateLevel(8, levelAchievements);  // Level 9
         CreateLevel(10, levelAchievements); // Level 10
         //Debug.Log("Init Levels");
 
+        return levels.Count;
+    }
+
+    /// <summary>
+    /// Creates tutorial level
+    /// </summary>
+    /// <returns>Level count</returns>
+    private int InitTutorial()
+    {
+        levels = new List<Level>();
+        CreateLevel(1, new Achievements(30, 1, 5));  // Level Ts
         return levels.Count;
     }
 
@@ -140,7 +157,7 @@ public class LevelManager : ScriptableObject
         }
 
         CheckStars(level);
-        playerData.Print();
+        //playerData.Print();
         return levelStats[level];
     }
     /// <summary>

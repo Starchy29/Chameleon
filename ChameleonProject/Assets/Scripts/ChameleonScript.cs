@@ -73,10 +73,10 @@ public class ChameleonScript : MonoBehaviour
     }
 
     // FixedUpdate helps with the wall jitteriness
-    private void FixedUpdate()
-    {
-        UpdateChameleon();
-    }
+    //private void FixedUpdate()
+    //{
+    //    UpdateChameleon();
+    //}
 
     public void UpdateChameleon()
     {
@@ -148,7 +148,8 @@ public class ChameleonScript : MonoBehaviour
                     currentFrame = 0;
                 }
             }
-        } else {
+        } 
+        else {
             // end animation when not moving
             currentFrame = 0;
             animationTimer = 0;

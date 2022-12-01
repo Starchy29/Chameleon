@@ -17,6 +17,14 @@ public class MainMenu : MonoBehaviour
     }
 
     /// <summary>
+    /// Loads tutorial level
+    /// </summary>
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene(11);
+    }
+
+    /// <summary>
     /// Quits the game.
     /// </summary>
     public void QuitApplication()

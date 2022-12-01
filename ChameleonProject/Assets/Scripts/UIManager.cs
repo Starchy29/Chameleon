@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
             return false;
         }
         GetGameplayUI(gameplayUI);
+        gameplayUI.SetActive(true);
 
         // - Menu UI
         menuUI = gui.transform.GetChild(1).gameObject;
@@ -95,10 +96,9 @@ public class UIManager : MonoBehaviour
 
         return true;
     }
+
     private bool GetGameplayUI(GameObject gameplayUI)
     {
-
-
         // -- Level UI
         GameObject levelUI = gameplayUI.transform.GetChild(0).gameObject;
         if (levelUI == null)
@@ -149,6 +149,30 @@ public class UIManager : MonoBehaviour
 
         }
         objectiveLabel = objectiveUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        return true;
+    }
+    private bool GetMenuUI(GameObject menuUI)
+    {
+        // -- Resume Button
+        GameObject resumeSceneButtonObj = menuUI.transform.GetChild(1).gameObject;
+        if (resumeSceneButtonObj == null)
+        {
+            Debug.LogError("Missing \"Resume-Button\" Object");
+            return false;
+        }
+        Button resumeButton = resumeSceneButtonObj.GetComponent<Button>();
+        resumeButton.onClick.AddListener(GameManager.Instance.ResumeGame);
+
+        // -- Menu Button
+        GameObject menuSceneButtonObj = menuUI.transform.GetChild(2).gameObject;
+        if (menuSceneButtonObj == null)
+        {
+            Debug.LogError("Missing \"Menu-Button\" Object");
+            return false;
+        }
+        Button menuButton = menuSceneButtonObj.GetComponent<Button>();
+        menuButton.onClick.AddListener(GameManager.Instance.OpenMainMenu);
+
         return true;
     }
     private bool GetSceneAchievementUI(GameObject achievementUI)
@@ -228,30 +252,6 @@ public class UIManager : MonoBehaviour
         return true;
     }
 
-    private bool GetMenuUI(GameObject menuUI)
-    {
-        // -- Resume Button
-        GameObject resumeSceneButtonObj = menuUI.transform.GetChild(0).gameObject;
-        if (resumeSceneButtonObj == null)
-        {
-            Debug.LogError("Missing \"UIElement\" Object");
-            return false;
-        }
-        Button resumeButton = resumeSceneButtonObj.GetComponent<Button>();
-        resumeButton.onClick.AddListener(GameManager.Instance.Resume);
-
-        // -- Menu Button
-        GameObject menuSceneButtonObj = menuUI.transform.GetChild(1).gameObject;
-        if (menuSceneButtonObj == null)
-        {
-            Debug.LogError("Missing \"UIElement\" Object");
-            return false;
-        }
-        Button menuButton = menuSceneButtonObj.GetComponent<Button>();
-        menuButton.onClick.AddListener(GameManager.Instance.OpenMenu);
-
-        return true;
-    }
     // Gameplay UI
     /// <summary>
     /// Updates the level number
@@ -321,6 +321,22 @@ public class UIManager : MonoBehaviour
     {
         timerValue.text = time;
         return true;
+    }
+
+    // Menu UI
+    public void OpenPauseMenu()
+    {
+        gameplayUI.SetActive(false);
+        menuUI.SetActive(true);
+        achievementUI.SetActive(true); // keep timer visable
+        endUI.SetActive(false);
+    }
+    public void ClosePauseMenu()
+    {
+        gameplayUI.SetActive(true);
+        menuUI.SetActive(false);
+        achievementUI.SetActive(true);
+        endUI.SetActive(false);
     }
 
     // End UI

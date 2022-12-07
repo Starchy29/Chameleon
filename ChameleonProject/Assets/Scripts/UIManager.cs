@@ -34,10 +34,22 @@ public class UIManager : MonoBehaviour
     private Image deathStarImage;
     private TextMeshProUGUI deathStarValue;
 
+    //sound effects
+    static AudioSource menuSounds;
+    static AudioSource buttonPress;
+
     private void Awake()
     {
         emptyStar = Resources.Load<Sprite>("Sprites/star-empty");
         fullStar = Resources.Load<Sprite>("Sprites/star-full");
+
+        //opening menu sound effect
+        menuSounds = gameObject.AddComponent<AudioSource>();
+        menuSounds.clip = Resources.Load<AudioClip>("SoundEffects/button-click");
+
+        //button click sound effect
+        buttonPress = gameObject.AddComponent<AudioSource>();
+        buttonPress.clip = Resources.Load<AudioClip>("SoundEffects/button-click2");
     }
 
     /// <summary>
@@ -92,7 +104,6 @@ public class UIManager : MonoBehaviour
         }
         GetEndUI(endUI);
         endUI.SetActive(false);
-
 
         return true;
     }
@@ -162,6 +173,7 @@ public class UIManager : MonoBehaviour
         }
         Button resumeButton = resumeSceneButtonObj.GetComponent<Button>();
         resumeButton.onClick.AddListener(GameManager.Instance.ResumeGame);
+        resumeButton.onClick.AddListener(buttonPress.Play);
 
         // -- Menu Button
         GameObject menuSceneButtonObj = menuUI.transform.GetChild(2).gameObject;
@@ -172,6 +184,7 @@ public class UIManager : MonoBehaviour
         }
         Button menuButton = menuSceneButtonObj.GetComponent<Button>();
         menuButton.onClick.AddListener(GameManager.Instance.OpenMainMenu);
+        menuButton.onClick.AddListener(buttonPress.Play);
 
         return true;
     }
@@ -238,6 +251,7 @@ public class UIManager : MonoBehaviour
         }
         Button resetButton = resetSceneButtonObj.GetComponent<Button>();
         resetButton.onClick.AddListener(GameManager.Instance.RestartLevel);
+        resetButton.onClick.AddListener(buttonPress.Play);
 
         // -- Next Button
         GameObject nextSceneButtonObj = endUI.transform.GetChild(5).gameObject;
@@ -250,10 +264,12 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance.IsTutorial)
         {
             nextButton.onClick.AddListener(GameManager.Instance.OpenMainMenu);
+            nextButton.onClick.AddListener(buttonPress.Play);
         }
         else
         {
             nextButton.onClick.AddListener(GameManager.Instance.NextScene);
+            nextButton.onClick.AddListener(buttonPress.Play);
         }
 
         return true;
@@ -337,6 +353,8 @@ public class UIManager : MonoBehaviour
         menuUI.SetActive(true);
         achievementUI.SetActive(true); // keep timer visable
         endUI.SetActive(false);
+
+        menuSounds.Play();
     }
     public void ClosePauseMenu()
     {

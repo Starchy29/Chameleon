@@ -114,6 +114,7 @@ public class SoundManager : MonoBehaviour
         clayFootstepSound.enabled = false;
     }
 
+    //prevents audio from getting cutoff
     public void InvokeAudio()
     {
         Invoke("StopFootsteps", grassFootstepSound.clip.length / 2);

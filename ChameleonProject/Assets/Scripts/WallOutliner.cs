@@ -16,8 +16,9 @@ public class WallOutliner : MonoBehaviour
         // add outlines to wall
         Tilemap map = gameObject.GetComponent<Tilemap>();
         Vector3Int dims = map.size;
-        for(int x = -dims.x / 2; x < dims.x / 2; x++) {
-            for(int y = -dims.y / 2; y < dims.y / 2; y++) {
+        const int BUFFER = 10; // extra tiles to check just in case
+        for(int x = -dims.x / 2 - BUFFER; x < dims.x / 2 + BUFFER; x++) {
+            for(int y = -dims.y / 2 - BUFFER; y < dims.y / 2 + BUFFER; y++) {
                 Tile tile = map.GetTile<Tile>(new Vector3Int(x, y, 0));
                 if(tile != null) {
                     Vector3 position = map.CellToWorld(new Vector3Int(x, y, 0)) + new Vector3(0.5f, 0.5f, 0); // shift to middle of tile

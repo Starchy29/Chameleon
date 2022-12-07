@@ -137,11 +137,6 @@ public class ChameleonScript : MonoBehaviour
 
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 
-        // set alpha to 1 in case it is made translucent later
-        Color newColor = renderer.color;
-        newColor.a = 1f;
-        renderer.color = newColor;
-
         // rotate to face move direction
         if (body.velocity != Vector2.zero)
         {
@@ -167,21 +162,13 @@ public class ChameleonScript : MonoBehaviour
             // end animation when not moving
             currentFrame = 0;
             animationTimer = 0;
-
-            // become translucent when not moving on matching color
-            if (!Visible)
-            {
-                newColor = renderer.color;
-                newColor.a = 0.5f;
-                renderer.color = newColor;
-            }
         }
         renderer.sprite = animationFrames[currentFrame];
         // check visibility from tile
         onMatchingTile = false; // visible until proven hidden
         currentTile = tiles.GetTile<Tile>(tiles.LocalToCell(transform.position));
         if (currentTile)
-            {
+        {
                 switch (color)
                 {
                     case BodyColor.Blue:
@@ -267,7 +254,15 @@ public class ChameleonScript : MonoBehaviour
 
                 // Updates Visibility UI
                 uiManager.UpdateVisibilityUI(Visible ? openEye : (body.velocity != Vector2.zero ? squintEye : closedEye)); // yes this is a lot of logic for one line but it works right I promise
-            }
+        }
+
+        // make translucent when matching color
+        Color newColor = renderer.color;
+        newColor.a = 1f;
+        if(!Visible) {
+            newColor.a = 0.5f;
+        }
+        renderer.color = newColor;
     }
 
     private void SetColor(BodyColor color)
